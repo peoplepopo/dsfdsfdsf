@@ -1062,7 +1062,7 @@ class Gun {
         this.master = body.source;
         this.label = '';
         this.controllers = [];
-        this.children = [];
+        this.children = new LinkedList;
         this.control = {
             target: new Vector(0, 0),
             goal: new Vector(0, 0),
@@ -1102,7 +1102,7 @@ class Gun {
                 info.PROPERTIES.GUN_CONTROLLERS.forEach(function(ioName) {
                     toAdd.push(eval('new ' + ioName + '(self)'));
                 });
-                this.controllers = toAdd.concat(this.controllers);
+                this.controllers.unshift.apply(this.controllers,toAdd);
             }
             this.autofire = (info.PROPERTIES.AUTOFIRE == null) ?
                 false : info.PROPERTIES.AUTOFIRE;
