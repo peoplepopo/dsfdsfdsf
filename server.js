@@ -4906,12 +4906,11 @@ var speedcheckloop = (() => {
             if(sum * roomSpeed>333){
               too_much_lag_streak++;
               if(too_much_lag_streak===10){
-                sockets.broadcast('too much lag, killing everything');
-                let killCount=0;
-                for(const e of entities)if(e.type!=='wall'&&!e.invuln){
-                  e.kill();
-                  killCount++;
-                }
+                let spare=0;
+                for(const e of entities)if(e.invuln||e.type==='wall')spare++;else e.kill();
+                const txt=`[anti lag] killed ${entities.length-spare} entities, spared ${spare} entities`;
+                util.warn(txt);
+                sockets.broadcast(txt);
               }
             }else too_much_lag_streak=0;
             util.warn('Total activation time: ' + activationtime);
