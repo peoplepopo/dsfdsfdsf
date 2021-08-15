@@ -1407,7 +1407,7 @@ class Gun {
 var minimap = [];
 var views = new LinkedList;
 var entitiesToAvoid = new LinkedList;
-const dirtyCheck = (p, r) => entitiesToAvoid.some(e => { return Math.abs(p.x - e.x) < r + e.size && Math.abs(p.y - e.y) < r + e.size; });
+const dirtyCheck = (p, r) => entitiesToAvoid.some(e => Math.abs(p.x - e.x) < r + e.size && Math.abs(p.y - e.y) < r + e.size);
 const grid = new hshg.HSHG();
 var entitiesIdLog = 0;
 var entities = new LinkedList;
@@ -2430,7 +2430,7 @@ class Entity {
         // Remove from the protected entities list
         if (this.isProtected)entitiesToAvoid.removeFirst(this);
         // Remove from minimap
-        let i = minimap.findIndex(entry => { return entry[0] === this.id; });
+        let i = minimap.findIndex(entry => entry[0] === this.id);
         if (i != -1) util.remove(minimap, i);
         // Remove this from views
         views.forEach(v => v.remove(this));
