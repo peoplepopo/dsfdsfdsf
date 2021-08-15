@@ -4906,10 +4906,10 @@ var speedcheckloop = (() => {
             if(sum * roomSpeed>333){
               too_much_lag_streak++;
               if(too_much_lag_streak===10){
-              util.error('too much lag, restarting server');
-              process.exit(0);
+                util.error('too much lag, restarting server');
+                process.exit(0);
               }
-            }
+            }else too_much_lag_streak=0;
             util.warn('Total activation time: ' + activationtime);
             util.warn('Total collision time: ' + collidetime);
             util.warn('Total cycle time: ' + movetime);
