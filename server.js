@@ -2799,7 +2799,7 @@ var http = require('http'),
 // Websocket behavior
 const sockets = (() => {
     const protocol = require('./lib/fasttalk');
-    let clients = [], players = [];
+    let clients = [], players = new LinkedList;
     return {
         broadcast: message => {
             clients.forEach(socket => {
@@ -2812,9 +2812,9 @@ const sockets = (() => {
             function close(socket) {
                 // Figure out who the player was
                 let player = socket.player,
-                    index = players.indexOf(player);
+                    exists = players.includes(player);
                 // Remove the player if one was created
-                if (index != -1) {
+                if (exists) {
                     // Kill the body if it exists
                     if (player.body != null) {
                         player.body.invuln = false;
@@ -2824,12 +2824,12 @@ const sockets = (() => {
                     }
                     // Disconnect everything
                     util.log('[INFO] User ' + player.name + ' disconnected!');
-                    util.remove(players, index);
+                    players.removeFirst(player);
                 } else {
                     util.log('[INFO] A player disconnected before entering the game.');
                 }
                 // Free the view
-                util.remove(views, views.indexOf(socket.view));
+                views.removeFirst(socket.view);
                 // Remove the socket
                 util.remove(clients, clients.indexOf(socket));        
                 util.log('[INFO] Socket closed. Views: ' + views.length + '. Clients: ' + clients.length + '.');
@@ -2902,7 +2902,7 @@ const sockets = (() => {
                     // Define the player.
                     if (players.indexOf(socket.player) != -1) { util.remove(players, players.indexOf(socket.player));  }
                     // Free the old view
-                    if (views.indexOf(socket.view) != -1) { util.remove(views, views.indexOf(socket.view)); socket.makeView(); }
+                    views.removeFirst2(socket.view,socket.makeView.bind(socket));
                     socket.player = socket.spawn(name);     
                     // Give it the room state
                     if (!needsRoom) { 
