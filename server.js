@@ -471,7 +471,7 @@ class io_nearestDifferentMaster extends IO {
             sqrRange = range * range,
             keepTarget = false;
         // Filter through everybody...
-        let out = entities.filterMap(e => {
+        let out = entities.filter(e => {
             // Only look at those within our view, and our parent's view, not dead, not our kind, not a bullet/trap/block etc
             if (e.health.amount > 0) {
             if (!e.invuln) {
@@ -479,7 +479,7 @@ class io_nearestDifferentMaster extends IO {
             if (e.master.master.team !== -101) {
             if (e.type === 'tank' || e.type === 'crasher' || (!this.body.aiSettings.shapefriend && e.type === 'food')) {
             if (Math.abs(e.x - m.x) < range && Math.abs(e.y - m.y) < range) {
-            if (!this.body.aiSettings.blind || (Math.abs(e.x - mm.x) < range && Math.abs(e.y - mm.y) < range)) return e;
+            if (!this.body.aiSettings.blind || (Math.abs(e.x - mm.x) < range && Math.abs(e.y - mm.y) < range)) return true;
             } } } } } }
         });
         
