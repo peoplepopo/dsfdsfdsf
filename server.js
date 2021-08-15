@@ -471,7 +471,7 @@ class io_nearestDifferentMaster extends IO {
             sqrRange = range * range,
             keepTarget = false;
         // Filter through everybody...
-        let out = entities.map(e => {
+        let out = entities.filterMap(e => {
             // Only look at those within our view, and our parent's view, not dead, not our kind, not a bullet/trap/block etc
             if (e.health.amount > 0) {
             if (!e.invuln) {
@@ -481,11 +481,11 @@ class io_nearestDifferentMaster extends IO {
             if (Math.abs(e.x - m.x) < range && Math.abs(e.y - m.y) < range) {
             if (!this.body.aiSettings.blind || (Math.abs(e.x - mm.x) < range && Math.abs(e.y - mm.y) < range)) return e;
             } } } } } }
-        }).filter((e) => { return e; });
+        });
         
         if (!out.length) return out;
 
-        out = out.map((e) => {
+        out.mapInPlace((e) => {
             // Only look at those within range and arc (more expensive, so we only do it on the few)
             let yaboi = false;
             if (Math.pow(this.body.x - e.x, 2) + Math.pow(this.body.y - e.y, 2) < sqrRange) {
@@ -497,7 +497,7 @@ class io_nearestDifferentMaster extends IO {
                 mostDangerous = Math.max(e.dangerValue, mostDangerous);
                 return e;
             }
-        }).filter((e) => { 
+        }).filterInPlace((e) => { 
             // Only return the highest tier of danger
             if (e != null) { if (this.body.aiSettings.farm || e.dangerValue === mostDangerous) { 
                 if (this.targetLock) { if (e.id === this.targetLock.id) keepTarget = true; }
@@ -541,7 +541,7 @@ class io_nearestDifferentMaster extends IO {
             }
             // Lock new target if we still don't have one.
             if (this.targetLock == null && this.validTargets.length) {
-                this.targetLock = (this.validTargets.length === 1) ? this.validTargets[0] : nearest(this.validTargets, { x: this.body.x, y: this.body.y });
+                this.targetLock = (this.validTargets.length === 1) ? this.validTargets[0][1] : nearest(this.validTargets, { x: this.body.x, y: this.body.y });
                 this.tick = -90;
             }
         }
@@ -1409,13 +1409,13 @@ class Gun {
     }
 }
 // Define entities
-var minimap = [];
-var views = [];
+var minimap = new Array;
+var views = new LinkedList;
 var entitiesToAvoid = new LinkedList;
 const dirtyCheck = (p, r) => { return entitiesToAvoid.some(e => { return Math.abs(p.x - e.x) < r + e.size && Math.abs(p.y - e.y) < r + e.size; }); };
 const grid = new hshg.HSHG();
 var entitiesIdLog = 0;
-var entities = new LinkedList();
+var entities = new LinkedList;
 const purgeEntities = () => { entities.filterInPlace(e => { return !e.isGhost; }); };
 
 var bringToLife = (() => {
@@ -3539,10 +3539,10 @@ const sockets = (() => {
                                 // Update our timer
                                 lastVisibleUpdate = camera.lastUpdate;
                                 // And update the nearby list
-                                nearby = entities.map(e => { if (check(socket.camera, e)) return e; }).filter(e => { return e; });
+                                nearby = entities.filterMap(e => { if (check(socket.camera, e)) return e; });
                             }
                             // Look at our list of nearby entities and get their updates
-                            let visible = nearby.map(function mapthevisiblerealm(e) {
+                            let visible = nearby.filterMap(function mapthevisiblerealm(e) {
                                 if (e.photo) { 
                                     if (
                                         Math.abs(e.x - x) < fov/2 + 1.5*e.size &&
@@ -3553,7 +3553,7 @@ const sockets = (() => {
                                         return perspective(e, player, e.flattenedPhoto);
                                     } 
                                 }
-                            }).filter(e => { return e; });
+                            });
                             // Spread it for upload
                             let numberInView = visible.length,
                                 view = [];
@@ -4627,12 +4627,12 @@ var maintainloop = (() => {
                 miniboss: 0,
                 tank: 0,
             };    
-            let npcs = entities.map(function npcCensus(instance) {
+            let npcs = entities.filterMap(function npcCensus(instance) {
                 if (census[instance.type] != null) {
                     census[instance.type]++;
                     return instance;
                 }
-            }).filter(e => { return e; });    
+            });    
             // Spawning
             spawnCrasher(census);
             spawnBosses(census);
@@ -4808,7 +4808,7 @@ var maintainloop = (() => {
                 sum: 0,
             };
             // Do the censusNest
-            food = entities.map(instance => {
+            food = entities.filterMap(instance => {
                 try {
                     if (instance.type === 'tank') {
                         census.tank++;
@@ -4818,7 +4818,7 @@ var maintainloop = (() => {
                         return instance;
                     }
                 } catch (err) { util.error(instance.label); util.error(err); instance.kill(); }
-            }).filter(e => { return e; });     
+            });    
             // Sum it up   
             let maxFood = 1 + room.maxFood + 15 * census.tank;      
             let maxNestFood = 1 + room.maxFood * room.nestFoodAmount;
