@@ -4885,6 +4885,7 @@ var maintainloop = (() => {
 // This is the checking loop. Runs at 1Hz.
 var speedcheckloop = (() => {
     let fails = 0;
+    let too_much_lag_streak=0;
     // Return the function
     return () => {
         let activationtime = logs.activation.sum(),
@@ -4902,6 +4903,13 @@ var speedcheckloop = (() => {
         if (sum > 1000 / roomSpeed / 30) { 
             //fails++;
             util.warn('~~ LOOPS: ' + loops + '. ENTITY #: ' + entities.length + '//' + Math.round(active/loops) + '. VIEW #: ' + views.length + '. BACKLOGGED :: ' + (sum * roomSpeed * 3).toFixed(3) + '%! ~~');
+            if(sum * roomSpeed>333){
+              too_much_lag_streak++;
+              if(too_much_lag_streak===10){
+              util.error('too much lag, restarting server');
+              process.exit(0);
+              }
+            }
             util.warn('Total activation time: ' + activationtime);
             util.warn('Total collision time: ' + collidetime);
             util.warn('Total cycle time: ' + movetime);
