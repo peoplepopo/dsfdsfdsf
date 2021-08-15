@@ -3474,6 +3474,7 @@ const sockets = (() => {
                 return socket => {
                     let lastVisibleUpdate = 0;
                     let nearby = new LinkedList;
+                    let visible = new LinkedList;
                     let x = -1000;
                     let y = -1000;
                     let fov = 0;
@@ -3534,10 +3535,10 @@ const sockets = (() => {
                                 // Update our timer
                                 lastVisibleUpdate = camera.lastUpdate;
                                 // And update the nearby list
-                                nearby = entities.filterMap(e => { if (check(socket.camera, e)) return e; });
+                                entities.filter(check.bind(null,socket.camera),nearby);
                             }
                             // Look at our list of nearby entities and get their updates
-                            let visible = nearby.filterMap(function mapthevisiblerealm(e) {
+                            nearby.filterMap(function mapthevisiblerealm(e) {
                                 if (e.photo) { 
                                     if (
                                         Math.abs(e.x - x) < fov/2 + 1.5*e.size &&
@@ -3548,7 +3549,7 @@ const sockets = (() => {
                                         return perspective(e, player, e.flattenedPhoto);
                                     } 
                                 }
-                            });
+                            },visible);
                             // Spread it for upload
                             let numberInView = visible.length,
                                 view = new LinkedList;
