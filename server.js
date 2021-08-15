@@ -483,7 +483,7 @@ class io_nearestDifferentMaster extends IO {
             } } } } } }
         }).filter((e) => { return e; });
         
-        if (!out.length) return [];
+        if (!out.length) return out;
 
         out = out.map((e) => {
             // Only look at those within range and arc (more expensive, so we only do it on the few)
@@ -518,9 +518,9 @@ class io_nearestDifferentMaster extends IO {
         let tracking = this.body.topSpeed,
             range = this.body.fov / 2;
         // Use whether we have functional guns to decide
-        for (let i=0; i<this.body.guns.length; i++) {
-            if (this.body.guns[i].canShoot && !this.body.aiSettings.skynet) {
-                let v = this.body.guns[i].getTracking();
+        for(const gun of this.body.guns){
+            if (gun.canShoot && !this.body.aiSettings.skynet) {
+                let v = gun.getTracking();
                 tracking = v.speed;
                 range = Math.min(range, v.speed * v.range);
                 break;
@@ -1411,7 +1411,7 @@ class Gun {
 // Define entities
 var minimap = [];
 var views = [];
-var entitiesToAvoid = [];
+var entitiesToAvoid = new LinkedList;
 const dirtyCheck = (p, r) => { return entitiesToAvoid.some(e => { return Math.abs(p.x - e.x) < r + e.size && Math.abs(p.y - e.y) < r + e.size; }); };
 const grid = new hshg.HSHG();
 var entitiesIdLog = 0;
@@ -1611,7 +1611,7 @@ class Entity {
         this.upgrades = [];
         this.settings = {};
         this.aiSettings = {};
-        this.children = [];
+        this.children = new LinkedList;
         // Define it
         this.SIZE = 1;
         this.define(Class.genericEntity);
@@ -2437,14 +2437,14 @@ class Entity {
 
     destroy() {
         // Remove from the protected entities list
-        if (this.isProtected) util.remove(entitiesToAvoid, entitiesToAvoid.indexOf(this)); 
+        if (this.isProtected)entitiesToAvoid.removeFirst(this);
         // Remove from minimap
         let i = minimap.findIndex(entry => { return entry[0] === this.id; });
         if (i != -1) util.remove(minimap, i);
         // Remove this from views
         views.forEach(v => v.remove(this));
         // Remove from parent lists if needed
-        if (this.parent != null) util.remove(this.parent.children, this.parent.children.indexOf(this));
+        if (this.parent != null) this.parent.children.removeFirst(this);
         // Kill all of its children
         let ID = this.id;
         entities.forEach(instance => {
