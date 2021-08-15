@@ -4909,7 +4909,7 @@ var speedcheckloop = (() => {
                 sockets.broadcast('too much lag, killing everything');
                 entities.filterInPlace(e=>{
                   if(e.isGhost)return false;
-                  if(e.type==='wall'||e.mockup===Class.baseProtector.mockup)return true;
+                  if(e.type==='wall')return true;
                   e.destroy();
                 });
               }
@@ -4972,7 +4972,3 @@ let websockets = (() => {
 setInterval(gameloop, room.cycleSpeed);
 setInterval(maintainloop, 200);
 setInterval(speedcheckloop, 1000);
-
-{
-  const e=new Entity();
-}
