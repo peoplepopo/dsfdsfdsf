@@ -3475,6 +3475,7 @@ const sockets = (() => {
                     let lastVisibleUpdate = 0;
                     let nearby = new LinkedList;
                     let visible = new LinkedList;
+                    let view = new LinkedList;
                     let x = -1000;
                     let y = -1000;
                     let fov = 0;
@@ -3551,8 +3552,8 @@ const sockets = (() => {
                                 }
                             },visible);
                             // Spread it for upload
-                            let numberInView = visible.length,
-                                view = new LinkedList;
+                            let numberInView = visible.length;
+                            view.clear();
                             visible.forEach(Function.prototype.apply.bind(view.push,view));     
                             // Update the gui
                             player.gui.update();
@@ -4623,10 +4624,10 @@ var maintainloop = (() => {
                 miniboss: 0,
                 tank: 0,
             };    
-            let npcs = entities.filterMap(function npcCensus(instance) {
+            let npcs = entities.filter(function npcCensus(instance) {
                 if (census[instance.type] != null) {
                     census[instance.type]++;
-                    return instance;
+                    return true;
                 }
             });    
             // Spawning
@@ -4657,7 +4658,7 @@ var maintainloop = (() => {
     })();
     // The big food function
     let makefood = (() => {
-        let food = [], foodSpawners = [];
+        let food = new LinkedList, foodSpawners = [];
         // The two essential functions
         function getFoodClass(level) {
             let a = { };
@@ -4804,17 +4805,17 @@ var maintainloop = (() => {
                 sum: 0,
             };
             // Do the censusNest
-            food = entities.filterMap(instance => {
+            entities.filter(instance => {
                 try {
                     if (instance.type === 'tank') {
                         census.tank++;
                     } else if (instance.foodLevel > -1) { 
                         if (room.isIn('nest', { x: instance.x, y: instance.y, })) { censusNest.sum++; censusNest[instance.foodLevel]++; }
                         else { census.sum++; census[instance.foodLevel]++; }
-                        return instance;
+                        return true;
                     }
                 } catch (err) { util.error(instance.label); util.error(err); instance.kill(); }
-            });    
+            },food);    
             // Sum it up   
             let maxFood = 1 + room.maxFood + 15 * census.tank;      
             let maxNestFood = 1 + room.maxFood * room.nestFoodAmount;
