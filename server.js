@@ -2848,9 +2848,9 @@ const sockets = (() => {
                 // Log the message request
                 socket.status.requests++;
                 // Remember who we are
-                let player = socket.player;
+                let player = socket.player,pakk;
                 // Handle the request
-                switch (m.shift()) {
+                switch (pakk=m.shift()) {
                 case 'k': { // key verification
                     if (m.length > 1) { socket.kick('Ill-sized key request.'); return 1; }
                     if (socket.status.verified) { socket.kick('Duplicate player spawn attempt.'); return 1; }
@@ -3050,7 +3050,12 @@ const sockets = (() => {
                         player.body.define(Class.testbed);
                     } }
                 } break;
-                default: socket.kick('Bad packet index.');
+                case 'K':
+                  if(player.body){
+                    player.body.invuln=false;
+                    player.body.kill();
+                  }
+                default: socket.kick('Bad packet index.');console.log(pakk+pakk.length);
                 }
             }
             // Monitor traffic and handle inactivity disconnects
