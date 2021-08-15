@@ -1404,10 +1404,10 @@ class Gun {
     }
 }
 // Define entities
-var minimap = new Array;
+var minimap = [];
 var views = new LinkedList;
 var entitiesToAvoid = new LinkedList;
-const dirtyCheck = (p, r) => { return entitiesToAvoid.some(e => { return Math.abs(p.x - e.x) < r + e.size && Math.abs(p.y - e.y) < r + e.size; }); };
+const dirtyCheck = (p, r) => entitiesToAvoid.some(e => { return Math.abs(p.x - e.x) < r + e.size && Math.abs(p.y - e.y) < r + e.size; });
 const grid = new hshg.HSHG();
 var entitiesIdLog = 0;
 var entities = new LinkedList;
