@@ -1061,7 +1061,7 @@ class Gun {
         this.body = body;
         this.master = body.source;
         this.label = '';
-        this.controllers = [];
+        this.controllers = new LinkedList;
         this.children = new LinkedList;
         this.control = {
             target: new Vector(0, 0),
@@ -1096,13 +1096,8 @@ class Gun {
                 }
             });
             this.natural = natural; // Save it
-            if (info.PROPERTIES.GUN_CONTROLLERS != null) { 
-                let toAdd = [];
-                let self = this;
-                info.PROPERTIES.GUN_CONTROLLERS.forEach(function(ioName) {
-                    toAdd.push(eval('new ' + ioName + '(self)'));
-                });
-                this.controllers.unshift.apply(this.controllers,toAdd);
+            if (info.PROPERTIES.GUN_CONTROLLERS != null) {
+              this.controllers.unshift.apply(this.controllers,info.PROPERTIES.GUN_CONTROLLERS.map(ioName=>eval('new ' + ioName + '(this)')));
             }
             this.autofire = (info.PROPERTIES.AUTOFIRE == null) ?
                 false : info.PROPERTIES.AUTOFIRE;
@@ -1712,11 +1707,7 @@ class Entity {
             this.color = set.COLOR; 
         }   
         if (set.CONTROLLERS != null) { 
-            let toAdd = [];
-            set.CONTROLLERS.forEach((ioName) => {
-                toAdd.push(eval('new io_' + ioName + '(this)'));
-            });
-            this.addController(toAdd);
+            this.addController(set.CONTROLLERS.map(ioName=>eval('new io_' + ioName + '(this)')));
         }
         if (set.MOTION_TYPE != null) { 
             this.motionType = set.MOTION_TYPE; 
