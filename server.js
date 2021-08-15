@@ -2341,7 +2341,7 @@ class Entity {
         // Check for death
         if (this.isDead()) {
             // Initalize message arrays
-            let killers = new Set, killTools = [], notJustFood = false;
+            let killers = new Set, killTools = new LinkedList, notJustFood = false;
             // If I'm a tank, call me a nameless player
             let name = (this.master.name == '') ?
                 (this.master.type === 'tank') ?
@@ -2395,7 +2395,7 @@ class Entity {
             // Broadcast
             if (this.settings.broadcastMessage) sockets.broadcast(this.settings.broadcastMessage);
             // Add the implements to the message
-            killTools.forEach((instance) => {
+            killTools.forEach(instance => {
                 killText += util.addArticle(instance.label) + ' and ';
             });
             // Prepare it and clear the collision array.
@@ -2799,7 +2799,7 @@ var http = require('http'),
 // Websocket behavior
 const sockets = (() => {
     const protocol = require('./lib/fasttalk');
-    let clients = [], players = new LinkedList;
+    let clients = new LinkedList, players = new LinkedList;
     return {
         broadcast: message => {
             clients.forEach(socket => {
@@ -2829,7 +2829,7 @@ const sockets = (() => {
                 // Free the view
                 views.removeFirst(socket.view);
                 // Remove the socket
-                util.remove(clients, clients.indexOf(socket));        
+                clients.removeFirst(socket);        
                 util.log('[INFO] Socket closed. Views: ' + views.length + '. Clients: ' + clients.length + '.');
             }
             // Being kicked 
