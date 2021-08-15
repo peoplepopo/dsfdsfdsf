@@ -1499,7 +1499,7 @@ class HealthType {
     }
 
     display() {
-        return this.amount / this.max;
+        return this.max?this.amount/this.max:-1;
     }
 
     getDamage(amount, capped = true) {
