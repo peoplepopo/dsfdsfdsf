@@ -536,7 +536,7 @@ class io_nearestDifferentMaster extends IO {
             this.tick = 0;
             this.validTargets = this.buildList(range);
             // Ditch our old target if it's invalid
-            if (this.targetLock && this.validTargets.indexOf(this.targetLock) === -1) {
+            if (this.targetLock && (!this.validTargets.includes(this.targetLock))) {
                 this.targetLock = undefined;
             }
             // Lock new target if we still don't have one.
