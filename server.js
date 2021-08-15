@@ -485,7 +485,7 @@ class io_nearestDifferentMaster extends IO {
         
         if (!out.length) return out;
 
-        out.mapInPlace((e) => {
+        out.mapInPlace(e => {
             // Only look at those within range and arc (more expensive, so we only do it on the few)
             let yaboi = false;
             if (Math.pow(this.body.x - e.x, 2) + Math.pow(this.body.y - e.y, 2) < sqrRange) {
@@ -497,7 +497,7 @@ class io_nearestDifferentMaster extends IO {
                 mostDangerous = Math.max(e.dangerValue, mostDangerous);
                 return e;
             }
-        }).filterInPlace((e) => { 
+        }).filterInPlace(e => { 
             // Only return the highest tier of danger
             if (e != null) { if (this.body.aiSettings.farm || e.dangerValue === mostDangerous) { 
                 if (this.targetLock) { if (e.id === this.targetLock.id) keepTarget = true; }
