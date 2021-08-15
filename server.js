@@ -4835,7 +4835,7 @@ var maintainloop = (() => {
             /************* UPGRADE FOOD ************/
             if (!food.length) return 0;
             for (let i=Math.ceil(food.length / 100); i>0; i--) {
-                let o = food[0][1], // A random food instance
+                let o = food[0][1], // A random food instance (this is brokenish part)
                     oldId = -1000,
                     overflow, location;
                 // Bounce 6 times
