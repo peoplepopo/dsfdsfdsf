@@ -1416,7 +1416,7 @@ const dirtyCheck = (p, r) => { return entitiesToAvoid.some(e => { return Math.ab
 const grid = new hshg.HSHG();
 var entitiesIdLog = 0;
 var entities = new LinkedList;
-const purgeEntities = () => { entities.filterInPlace(e => { return !e.isGhost; }); };
+const purgeEntities = entities.filterInPlace.bind(entities,e=>!e.isGhost);
 
 var bringToLife = (() => {
     let remapTarget = (i, ref, self) => {
@@ -2811,10 +2811,9 @@ const sockets = (() => {
             // Closing the socket
             function close(socket) {
                 // Figure out who the player was
-                let player = socket.player,
-                    exists = players.includes(player);
+                let player = socket.player;
                 // Remove the player if one was created
-                if (exists) {
+                if (players.removeFirst(player)) {
                     // Kill the body if it exists
                     if (player.body != null) {
                         player.body.invuln = false;
@@ -2824,7 +2823,6 @@ const sockets = (() => {
                     }
                     // Disconnect everything
                     util.log('[INFO] User ' + player.name + ' disconnected!');
-                    players.removeFirst(player);
                 } else {
                     util.log('[INFO] A player disconnected before entering the game.');
                 }
@@ -2900,7 +2898,7 @@ const sockets = (() => {
                     // Bring to life
                     socket.status.deceased = false;
                     // Define the player.
-                    if (players.indexOf(socket.player) != -1) { util.remove(players, players.indexOf(socket.player));  }
+                    players.removeFirst(socket.player);
                     // Free the old view
                     views.removeFirst2(socket.view,socket.makeView.bind(socket));
                     socket.player = socket.spawn(name);     
