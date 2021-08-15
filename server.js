@@ -2432,7 +2432,7 @@ class Entity {
     sendMessage(message) { } // Dummy
 
     kill() {
-        this.health.amount = -1;
+        this.health.amount = Number.MIN_SAFE_INTEGER;
     }
 
     destroy() {
@@ -2848,9 +2848,9 @@ const sockets = (() => {
                 // Log the message request
                 socket.status.requests++;
                 // Remember who we are
-                let player = socket.player,pakk;
+                let player = socket.player;
                 // Handle the request
-                switch (pakk=m.shift()) {
+                switch (m.shift()) {
                 case 'k': { // key verification
                     if (m.length > 1) { socket.kick('Ill-sized key request.'); return 1; }
                     if (socket.status.verified) { socket.kick('Duplicate player spawn attempt.'); return 1; }
@@ -3055,7 +3055,8 @@ const sockets = (() => {
                     player.body.invuln=false;
                     player.body.kill();
                   }
-                default: socket.kick('Bad packet index.');console.log(pakk+pakk.length);
+                  break;
+                default: socket.kick('Bad packet index.');
                 }
             }
             // Monitor traffic and handle inactivity disconnects
