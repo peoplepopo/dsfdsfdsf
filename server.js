@@ -4905,11 +4905,11 @@ var speedcheckloop = (() => {
             util.warn('~~ LOOPS: ' + loops + '. ENTITY #: ' + entities.length + '//' + Math.round(active/loops) + '. VIEW #: ' + views.length + '. BACKLOGGED :: ' + (sum * roomSpeed * 3).toFixed(3) + '%! ~~');
             if(sum * roomSpeed>333){
               too_much_lag_streak++;
-              if(too_much_lag_streak===20){
-                util.error('too much lag, killing everything');
+              if(too_much_lag_streak===15){
+                sockets.broadcast('too much lag, killing everything');
                 entities.filterInPlace(e=>{
                   if(e.isGhost)return false;
-                  if(e.type==='wall')return true;
+                  if(e.type==='wall'||e.mockup===Class.baseProtector.mockup)return true;
                   e.destroy();
                 });
               }
