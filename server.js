@@ -15,6 +15,7 @@ const c = require('./config.json');
 const util = require('./lib/util');
 const ran = require('./lib/random');
 const hshg = require('./lib/hshg');
+const {LinkedList} = require('./lib/LinkedList');
 
 // Let's get a cheaper array removal thing
 Array.prototype.remove = index => {
@@ -1414,8 +1415,8 @@ var entitiesToAvoid = [];
 const dirtyCheck = (p, r) => { return entitiesToAvoid.some(e => { return Math.abs(p.x - e.x) < r + e.size && Math.abs(p.y - e.y) < r + e.size; }); };
 const grid = new hshg.HSHG();
 var entitiesIdLog = 0;
-var entities = [];
-const purgeEntities = () => { entities = entities.filter(e => { return !e.isGhost; }); };
+var entities = new LinkedList();
+const purgeEntities = () => { entities.filterInPlace(e => { return !e.isGhost; }); };
 
 var bringToLife = (() => {
     let remapTarget = (i, ref, self) => {
