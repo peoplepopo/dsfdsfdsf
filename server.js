@@ -1627,7 +1627,7 @@ class Entity {
         this.velocity = new Vector(0, 0);
         this.accel = new Vector(0, 0);
         this.damp = 0.05;
-        this.collisionArray = [];
+        this.collisionArray = new LinkedList;
         this.invuln = false;
         this.alpha = 1;
         this.invisible = [0, 0];
@@ -4434,7 +4434,7 @@ var gameloop = (() => {
     // Living stuff
     function entitiesactivationloop(my) {
         // Update collisions.
-        my.collisionArray = []; 
+        my.collisionArray.clear(); 
         // Activation
         my.activation.update();
         my.updateAABB(my.activation.check()); 
@@ -4464,7 +4464,7 @@ var gameloop = (() => {
             }
         }
         // Update collisions.
-        my.collisionArray = []; 
+        my.collisionArray.clear(); 
     }
     let time;
     // Return the loop function
