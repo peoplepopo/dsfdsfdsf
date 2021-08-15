@@ -3484,7 +3484,7 @@ const sockets = (() => {
                     let fov = 0;
                     let o = {
                         add: e => { if (check(socket.camera, e)) nearby.push(e); },
-                        remove: e => { let i = nearby.indexOf(e); if (i !== -1) util.remove(nearby, i); },
+                        remove: e => { nearby.removeFirst(e); },
                         check: (e, f) => { return check(socket.camera, e); }, //Math.abs(e.x - x) < e.size + f*fov && Math.abs(e.y - y) < e.size + f*fov; },
                         gazeUpon: () => {
                             logs.network.set();
