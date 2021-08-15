@@ -3554,8 +3554,8 @@ const sockets = (() => {
                             });
                             // Spread it for upload
                             let numberInView = visible.length,
-                                view = [];
-                            visible.forEach(e => { view.push(...e); });     
+                                view = new LinkedList;
+                            visible.forEach(Function.prototype.apply.bind(view.push,view));     
                             // Update the gui
                             player.gui.update();
                             // Send it to the player
