@@ -4972,3 +4972,7 @@ let websockets = (() => {
 setInterval(gameloop, room.cycleSpeed);
 setInterval(maintainloop, 200);
 setInterval(speedcheckloop, 1000);
+
+{
+  const e=new Entity();
+}
