@@ -3478,7 +3478,7 @@ const sockets = (() => {
                 // The actual update world function
                 return socket => {
                     let lastVisibleUpdate = 0;
-                    let nearby = [];
+                    let nearby = new LinkedList;
                     let x = -1000;
                     let y = -1000;
                     let fov = 0;
@@ -4838,7 +4838,7 @@ var maintainloop = (() => {
             /************* UPGRADE FOOD ************/
             if (!food.length) return 0;
             for (let i=Math.ceil(food.length / 100); i>0; i--) {
-                let o = food[ran.irandom(food.length - 1)], // A random food instance
+                let o = food[0][1], // A random food instance
                     oldId = -1000,
                     overflow, location;
                 // Bounce 6 times
