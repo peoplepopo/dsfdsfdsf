@@ -1680,7 +1680,7 @@ class Entity {
 
     addController(newIO) {
         if (Array.isArray(newIO)) {
-            this.controllers = newIO.concat(this.controllers);
+            this.controllers.unshift.apply(this.controllers,newIO);
         } else {
             this.controllers.unshift(newIO); 
         }
@@ -3324,10 +3324,10 @@ const sockets = (() => {
                         // Dev hax
                         if (socket.key === 'testl' || socket.key === 'testk') {
                             body.name = "\u200b" + body.name;
-                            body.define({ CAN_BE_ON_LEADERBOARD: false, });
+                            body.define({ CAN_BE_ON_LEADERBOARD: false });
                         }                        
                         body.addController(new io_listenToPlayer(body, player)); // Make it listen
-                        body.sendMessage = content => messenger(socket, content); // Make it speak
+                        body.sendMessage = messenger.bind(null,socket); // Make it speak
                         body.invuln = true; // Make it safe
                     player.body = body;
                     // Decide how to color and team the body
