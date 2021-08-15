@@ -2341,7 +2341,7 @@ class Entity {
         // Check for death
         if (this.isDead()) {
             // Initalize message arrays
-            let killers = [], killTools = [], notJustFood = false;
+            let killers = new Set, killTools = [], notJustFood = false;
             // If I'm a tank, call me a nameless player
             let name = (this.master.name == '') ?
                 (this.master.type === 'tank') ?
@@ -2359,21 +2359,21 @@ class Entity {
                 if (instance.master.settings.acceptsScore) { // If it's not food, give its master the score
                     if (instance.master.type === 'tank' || instance.master.type === 'miniboss') notJustFood = true;
                     instance.master.skill.score += jackpot;
-                    killers.push(instance.master); // And keep track of who killed me
+                    killers.add(instance.master); // And keep track of who killed me
                 } else if (instance.settings.acceptsScore) {
                     instance.skill.score += jackpot;
                 }
                 killTools.push(instance); // Keep track of what actually killed me
             });
             // Remove duplicates
-            killers = killers.filter((elem, index, self) => { return index == self.indexOf(elem); });
+            //killers = killers.filter((elem, index, self) => { return index == self.indexOf(elem); });
             // If there's no valid killers (you were killed by food), change the message to be more passive
             let killText = (notJustFood) ? '' : "You have been killed by ",
                 dothISendAText = this.settings.givesKillMessage;
             killers.forEach(instance => {
                 this.killCount.killers.push(instance.index);
                 if (this.type === 'tank') {
-                    if (killers.length > 1) instance.killCount.assists++; else instance.killCount.solo++;
+                    if (killers.size > 1) instance.killCount.assists++; else instance.killCount.solo++;
                 } else if (this.type === "miniboss") instance.killCount.bosses++;
             });
             // Add the killers to our death message, also send them a message
@@ -2385,7 +2385,7 @@ class Entity {
                     }
                     // Only if we give messages
                     if (dothISendAText) { 
-                        instance.sendMessage('You killed ' + name + ((killers.length > 1) ? ' (with some help).' : '.')); 
+                        instance.sendMessage('You killed ' + name + ((killers.size > 1) ? ' (with some help).' : '.')); 
                     }
                 });
                 // Prepare the next part of the next 
