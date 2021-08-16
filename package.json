@@ -6,7 +6,6 @@
     "start": "node server"
   },
   "dependencies": {
-    "google-closure-library": "20180506.0.0",
     "ws": "6.1.x"
   },
   "engines": {
