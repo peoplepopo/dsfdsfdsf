@@ -2638,12 +2638,11 @@ var http = require('http'),
             let chooseFurthestAndRemove = function(furthestFrom) {
                 let index = 0;
                 if (furthestFrom != -1) {
-                    let index,fd=Infinity;
+                    let fd=-Infinity;
                     let d;
                     for (let i=0; i<endpoints.length; i++) {
                         let thisPoint = endpoints[i];
                         d = Math.pow(thisPoint.x - furthestFrom.x, 2) + Math.pow(thisPoint.y - furthestFrom.y, 2) + 1;
-                        d=1/d;
                         if(d>fd){
                           fd=d;
                           index=i;
@@ -2656,7 +2655,7 @@ var http = require('http'),
             let point2 = chooseFurthestAndRemove(point1); // And the point furthest from that
             // And the point which maximizes the area of our triangle (a loose look at this one)
             let chooseBiggestTriangleAndRemove = function(point1, point2) {
-                let index=0,b=Infinity;
+                let index=0,b=-Infinity;
                 let a;
                 for (let i=0; i<endpoints.length; i++) {
                     let thisPoint = endpoints[i];
@@ -2666,7 +2665,6 @@ var http = require('http'),
                         * (because it's always the same) nor divide by 2 to get the 
                         * actual area (because we're just comparing it)
                         */
-                    a=1/a;
                     if(a>b){
                       b=a;
                       index=i;
