@@ -1402,13 +1402,13 @@ class Gun {
     }
 }
 // Define entities
-var minimap = [];
-var views = new LinkedList;
-var entitiesToAvoid = new LinkedList;
+const minimap = [];
+const views = new LinkedList;
+const entitiesToAvoid = new LinkedList;
 const dirtyCheck = (p, r) => entitiesToAvoid.some(e => Math.abs(p.x - e.x) < r + e.size && Math.abs(p.y - e.y) < r + e.size);
 const grid = new hshg.HSHG();
-var entitiesIdLog = 0;
-var entities = new LinkedList;
+let entitiesIdLog = 0;
+const entities = new LinkedList;
 const purgeEntities = entities.filterInPlace.bind(entities,e=>!e.isGhost);
 
 var bringToLife = (() => {
