@@ -4902,12 +4902,9 @@ var speedcheckloop = (() => {
             util.warn('~~ LOOPS: ' + loops + '. ENTITY #: ' + entities.length + '//' + Math.round(active/loops) + '. VIEW #: ' + views.length + '. BACKLOGGED :: ' + (sum * roomSpeed * 3).toFixed(3) + '%! ~~');
             if(sum * roomSpeed>333){
               too_much_lag_streak++;
-              if(too_much_lag_streak===10){
-                let spare=0;
-                for(const e of entities)if(e.invuln||e.type==='wall')spare++;else e.kill();
-                const txt=`[anti lag] killed ${entities.length-spare} entities, spared ${spare} entities`;
-                util.warn(txt);
-                sockets.broadcast(txt);
+              if(too_much_lag_streak===15){
+                util.error('too much lag, restarting server');
+                process.exit(0);
               }
             }else too_much_lag_streak=0;
             util.warn('Total activation time: ' + activationtime);
