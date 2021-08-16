@@ -30,7 +30,7 @@ const {LinkedList} = require('./lib/LinkedList');
 
 // Set up room.
 global.fps = "Unknown";
-var roomSpeed = c.gameSpeed;
+let roomSpeed = c.gameSpeed;
 const room = {
     lastCycle: undefined,
     cycleSpeed: 1000 / roomSpeed / 30,
@@ -4747,15 +4747,12 @@ var maintainloop = (() => {
                 if (--this.foodToMake < 0) {
                     //util.debug('FoodSpawner rotted, respawning.');
                     util.remove(foodSpawners, foodSpawners.indexOf(this));
-                    foodSpawners.push(new FoodSpawner());
+                    foodSpawners.push(new FoodSpawner);
                 }
             }
         }
         // Add them
-        foodSpawners.push(new FoodSpawner());
-        foodSpawners.push(new FoodSpawner());
-        foodSpawners.push(new FoodSpawner());
-        foodSpawners.push(new FoodSpawner());
+        foodSpawners.push(new FoodSpawner,new FoodSpawner,new FoodSpawner,new FoodSpawner);
         // Food making functions 
         let makeGroupedFood = () => { // Create grouped food
             // Choose a location around a spawner
@@ -4931,6 +4928,7 @@ var speedcheckloop = (() => {
 /** BUILD THE SERVERS **/  
 // Turn the server on
 let server = http.createServer((req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*')
   let { pathname } = url.parse(req.url)
   switch (pathname) {
     case '/':
@@ -4938,7 +4936,6 @@ let server = http.createServer((req, res) => {
       res.end(`<!DOCTYPE html><h3>Arras</h3><button onclick="location.href = 'http://arras.io/#host=' + location.host">Open</button>`)
     break
     case '/mockups.json':
-      res.setHeader('Access-Control-Allow-Origin', '*')
       res.writeHead(200)
       res.end(mockupJsonData)
     break
