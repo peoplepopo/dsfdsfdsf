@@ -4439,10 +4439,10 @@ var gameloop = (() => {
         // Consider death.  
         if (my.contemplationOfMortality()) my.destroy();
         else {
-            if(my.x<0)my.x=room.width;
+            /*if(my.x<0)my.x=room.width;
               else if(my.x>room.width)my.x=0;
             if(my.y<0)my.y=room.height;
-              else if(my.y>room.height)my.y=0;
+              else if(my.y>room.height)my.y=0;*/
             if (my.bond == null) { 
                 // Resolve the physical behavior from the last collision cycle.
                 logs.physics.set();
