@@ -18,7 +18,7 @@ const hshg = require('./lib/hshg');
 const {LinkedList} = require('./lib/LinkedList');
 
 // Let's get a cheaper array removal thing
-Array.prototype.remove = index => {
+/*Array.prototype.remove = index => {
     if(index === this.length - 1){
         return this.pop();
     } else {
@@ -26,7 +26,7 @@ Array.prototype.remove = index => {
         this[index] = this.pop();
         return r;
     }
-};
+};*/
 
 // Set up room.
 global.fps = "Unknown";
