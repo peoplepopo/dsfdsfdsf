@@ -2638,25 +2638,24 @@ var http = require('http'),
             let chooseFurthestAndRemove = function(furthestFrom) {
                 let index = 0;
                 if (furthestFrom != -1) {
-                    let list = new goog.structs.PriorityQueue();
+                    let index,fd=-Infinity;
                     let d;
                     for (let i=0; i<endpoints.length; i++) {
                         let thisPoint = endpoints[i];
                         d = Math.pow(thisPoint.x - furthestFrom.x, 2) + Math.pow(thisPoint.y - furthestFrom.y, 2) + 1;
-                        list.enqueue(1/d, i);
+                        if(d>fd){
+                          fd=d;
+                          index=i;
+                        }
                     }
-                    index = list.dequeue();
                 }
-                let output = endpoints[index];
-                endpoints.splice(index, 1);
-                return output;
+                return endpoints.splice(index, 1)[0];
             };
             let point1 = chooseFurthestAndRemove(massCenter); // Choose the point furthest from the mass center
             let point2 = chooseFurthestAndRemove(point1); // And the point furthest from that
             // And the point which maximizes the area of our triangle (a loose look at this one)
             let chooseBiggestTriangleAndRemove = function(point1, point2) {
-                let list = new goog.structs.PriorityQueue();
-                let index = 0;
+                let index=0,b=-Infinity;
                 let a;
                 for (let i=0; i<endpoints.length; i++) {
                     let thisPoint = endpoints[i];
@@ -2666,12 +2665,12 @@ var http = require('http'),
                         * (because it's always the same) nor divide by 2 to get the 
                         * actual area (because we're just comparing it)
                         */
-                    list.enqueue(1/a, i);
+                    if(a>b){
+                      b=a;
+                      index=i;
+                    }
                 }
-                index = list.dequeue();
-                let output = endpoints[index];
-                endpoints.splice(index, 1);
-                return output;
+                return endpoints.splice(index, 1)[0];
             };
             let point3 = chooseBiggestTriangleAndRemove(point1, point2);
             // 4) Define our first enclosing circle as the one which seperates these three furthest points
