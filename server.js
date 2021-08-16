@@ -186,18 +186,17 @@ var Class = (() => {
 })();
 
 // Define IOs (AI)
-function nearest(array, location, test = () => { return true; }) {
-    if (!array.length) {
-        return undefined;
-    }
+const _ret_true=()=>true;
+function nearest(array, location, test = _ret_true) {
     var nearestDist=Infinity,nearestEnt;
     array.forEach(function(instance) {
         var d = Math.pow(instance.x - location.x, 2) + Math.pow(instance.y - location.y, 2);
-        if (test(instance, d)) {
-            list.enqueue(d, instance);
+        if (d<nearestDist&&test(instance, d)) {
+            nearestDist=d;
+            nearestEnt=instance;
         }
     });
-    return list.dequeue();
+    return nearestEnt;
 }
 function timeOfImpact(p, v, s) { 
     // Requires relative position and velocity to aiming point
