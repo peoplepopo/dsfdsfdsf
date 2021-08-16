@@ -187,13 +187,12 @@ var Class = (() => {
 
 // Define IOs (AI)
 function nearest(array, location, test = () => { return true; }) {
-    let list = new goog.structs.PriorityQueue();
-    let d;
     if (!array.length) {
         return undefined;
     }
+    var nearestDist=Infinity,nearestEnt;
     array.forEach(function(instance) {
-        d = Math.pow(instance.x - location.x, 2) + Math.pow(instance.y - location.y, 2);
+        var d = Math.pow(instance.x - location.x, 2) + Math.pow(instance.y - location.y, 2);
         if (test(instance, d)) {
             list.enqueue(d, instance);
         }
@@ -4479,7 +4478,7 @@ var gameloop = (() => {
             // Load the grid
             grid.update();
             // Run collisions in each grid
-            grid.queryForCollisionPairs().forEach(collision => collide(collision));
+            grid.queryForCollisionPairs().forEach(collide);
         }
         logs.collide.mark();
         // Do entities life
@@ -4624,10 +4623,10 @@ var maintainloop = (() => {
                 miniboss: 0,
                 tank: 0,
             };    
-            let npcs = entities.filter(function npcCensus(instance) {
+            /*let npcs = entities.filter*/entities.forEach(function npcCensus(instance) {
                 if (census[instance.type] != null) {
                     census[instance.type]++;
-                    return true;
+                    //return true;
                 }
             });    
             // Spawning
