@@ -4471,7 +4471,7 @@ var gameloop = (() => {
         logs.loops.tally();
         logs.master.set();
         logs.activation.set();
-            entities.forEach(e => entitiesactivationloop(e));
+            entities.forEach(entitiesactivationloop);
         logs.activation.mark();
         // Do collisions
         logs.collide.set();
@@ -4484,7 +4484,7 @@ var gameloop = (() => {
         logs.collide.mark();
         // Do entities life
         logs.entities.set();
-            entities.forEach(e => entitiesliveloop(e));
+            entities.forEach(entitiesliveloop);
         logs.entities.mark();
         logs.master.mark();
         // Remove dead entities
