@@ -4464,6 +4464,7 @@ var gameloop = (() => {
     }
     let time;
     // Return the loop function
+    const colpairs=new LinkedList;
     return () => {
         logs.loops.tally();
         logs.master.set();
@@ -4476,7 +4477,8 @@ var gameloop = (() => {
             // Load the grid
             grid.update();
             // Run collisions in each grid
-            grid.queryForCollisionPairs().forEach(collide);
+            colpairs.clear();
+            grid.queryForCollisionPairs(colpairs).forEach(collide);
         }
         logs.collide.mark();
         // Do entities life
