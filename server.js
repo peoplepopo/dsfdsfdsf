@@ -5988,7 +5988,7 @@ var speedcheckloop = (() => {
         util.log("gc");
         gc();
       }
-      perodic_gc_streak %= 10;
+      perodic_gc_streak %= 3;
     } else perodic_gc_streak = 0;
   };
 })();
