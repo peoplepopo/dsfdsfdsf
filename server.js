@@ -1400,7 +1400,7 @@ class Gun {
     }
 }
 // Define entities
-const minimap = new LinkedList;
+//const minimap = new LinkedList;
 const views = new LinkedList;
 const entitiesToAvoid = new LinkedList;
 const dirtyCheck = (p, r) => entitiesToAvoid.some(e => Math.abs(p.x - e.x) < r + e.size && Math.abs(p.y - e.y) < r + e.size);
@@ -2425,8 +2425,6 @@ class Entity {
     destroy() {
         // Remove from the protected entities list
         if (this.isProtected)entitiesToAvoid.removeFirst(this);
-        // Remove from minimap
-        minimap.removeFirst3(entry => entry[0] === this.id);
         // Remove this from views
         views.forEach(v => v.remove(this));
         // Remove from parent lists if needed
