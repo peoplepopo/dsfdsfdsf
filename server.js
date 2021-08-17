@@ -46,9 +46,7 @@ const room = {
         linear: Math.sqrt(c.WIDTH * c.HEIGHT / 100000000),
     },
     maxFood: c.WIDTH * c.HEIGHT / 20000 * c.FOOD_AMOUNT,
-    isInRoom: location => {
-        return location.x >= 0 && location.x <= c.WIDTH && location.y >= 0 && location.y <= c.HEIGHT
-    },    
+    isInRoom: location => location.x >= 0 && location.x <= c.WIDTH && location.y >= 0 && location.y <= c.HEIGHT,    
     topPlayerID: -1,
 };
     room.findType = type => {
@@ -3950,7 +3948,7 @@ const sockets = (() => {
                 })
 
                 // Periodically give out updates
-                let subscribers = []
+                const subscribers = new LinkedList
                 setInterval(() => {
                   logs.minimap.set()
                   let minimapUpdate = minimapAll.update()
@@ -3985,14 +3983,8 @@ const sockets = (() => {
                 }, 250)
 
                 return {
-                  subscribe(socket) {
-                    subscribers.push(socket)
-                  },
-                  unsubscribe(socket) {
-                    let i = subscribers.indexOf(socket)
-                    if (i !== -1)
-                      util.remove(subscribers, i)
-                  },
+                  subscribe:subscribers.push.bind(subscribers),
+                  unsubscribe:subscribers.removeFirst.bind(subscribers)
                 }
             })()
             // Build the returned function
