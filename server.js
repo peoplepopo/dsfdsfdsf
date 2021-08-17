@@ -1400,7 +1400,7 @@ class Gun {
     }
 }
 // Define entities
-const minimap = [];
+const minimap = new LinkedList;
 const views = new LinkedList;
 const entitiesToAvoid = new LinkedList;
 const dirtyCheck = (p, r) => entitiesToAvoid.some(e => Math.abs(p.x - e.x) < r + e.size && Math.abs(p.y - e.y) < r + e.size);
@@ -2426,8 +2426,7 @@ class Entity {
         // Remove from the protected entities list
         if (this.isProtected)entitiesToAvoid.removeFirst(this);
         // Remove from minimap
-        let i = minimap.findIndex(entry => entry[0] === this.id);
-        if (i != -1) util.remove(minimap, i);
+        minimap.removeFirst3(entry => entry[0] === this.id);
         // Remove this from views
         views.forEach(v => v.remove(this));
         // Remove from parent lists if needed
@@ -2785,7 +2784,7 @@ var http = require('http'),
 // Websocket behavior
 const sockets = (() => {
     const protocol = require('./lib/fasttalk');
-    let clients = new LinkedList, players = new LinkedList;
+    const clients = new LinkedList, players = new LinkedList;
     return {
         broadcast: message => {
             clients.forEach(socket => {
@@ -3476,8 +3475,8 @@ const sockets = (() => {
                     let fov = 0;
                     let o = {
                         add: e => { if (check(socket.camera, e)) nearby.push(e); },
-                        remove: e => { nearby.removeFirst(e); },
-                        check: (e, f) => { return check(socket.camera, e); }, //Math.abs(e.x - x) < e.size + f*fov && Math.abs(e.y - y) < e.size + f*fov; },
+                        remove: nearby.removeFirst.bind(nearby),
+                        check: e => check(socket.camera, e), //Math.abs(e.x - x) < e.size + f*fov && Math.abs(e.y - y) < e.size + f*fov; },
                         gazeUpon: () => {
                             logs.network.set();
                             let player = socket.player,
@@ -3948,7 +3947,7 @@ const sockets = (() => {
                 })
 
                 // Periodically give out updates
-                const subscribers = new LinkedList
+                const subscribers = new LinkedList, two_zeros=[0,0]
                 setInterval(() => {
                   logs.minimap.set()
                   let minimapUpdate = minimapAll.update()
@@ -3960,14 +3959,14 @@ const sockets = (() => {
                     if (socket.status.needsNewBroadcast) {
                       socket.talk('b',
                         ...minimapUpdate.reset,
-                        ...(team ? team.reset : [0, 0]),
-                        ...(socket.anon ? [0, 0] : leaderboardUpdate.reset))
+                        ...(team ? team.reset : two_zeros),
+                        ...(socket.anon ? two_zeros : leaderboardUpdate.reset))
                       socket.status.needsNewBroadcast = false
                     } else {
                       socket.talk('b',
                         ...minimapUpdate.update,
-                        ...(team ? team.update : [0, 0]),
-                        ...(socket.anon ? [0, 0] : leaderboardUpdate.update))
+                        ...(team ? team.update : two_zeros),
+                        ...(socket.anon ? two_zeros : leaderboardUpdate.update))
                     }
                   }
 
