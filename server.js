@@ -28,8 +28,8 @@ const {LinkedList} = require('./lib/LinkedList');
     }
 };*/
 
-function try_garbage_collecting(){
-  try()
+if('function'!==typeof gc){
+  util.error('gc is not function, try running node with ""');
 }
 
 // Set up room.
@@ -4877,7 +4877,6 @@ var maintainloop = (() => {
 })();
 // This is the checking loop. Runs at 1Hz.
 var speedcheckloop = (() => {
-    let fails = 0;
     let too_much_lag_streak=0;
     // Return the function
     return () => {
@@ -4912,12 +4911,7 @@ var speedcheckloop = (() => {
             util.warn('Total entity life+thought cycle time: ' + lifetime);
             util.warn('Total entity selfie-taking time: ' + selfietime);
             util.warn('Total time: ' + (activationtime + collidetime + movetime + playertime + maptime + physicstime + lifetime + selfietime));
-            if (fails > 60) {
-                util.error("FAILURE!");
-                //process.exit(1);
-            }
-        } else {
-            fails = 0;
+            try_garbage_collecting();
         }
     };
 })();
@@ -4961,3 +4955,4 @@ let websockets = (() => {
 setInterval(gameloop, room.cycleSpeed);
 setInterval(maintainloop, 200);
 setInterval(speedcheckloop, 1000);
+try_garbage_collecting();
