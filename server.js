@@ -28,6 +28,10 @@ const {LinkedList} = require('./lib/LinkedList');
     }
 };*/
 
+function try_garbage_collecting(){
+  try()
+}
+
 // Set up room.
 global.fps = "Unknown";
 let roomSpeed = c.gameSpeed;
