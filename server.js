@@ -6017,7 +6017,7 @@ var speedcheckloop = (() => {
         res.end();
     }
   });
-  server.listen(process.env.PORT || 8080, function httpListening() {
+  server.listen(process.env.PORT || 8080, ()=>{
     util.log(
       new Date() +
         ". Joint HTTP+Websocket server turned on, listening on port " +
