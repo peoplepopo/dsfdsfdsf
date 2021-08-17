@@ -5927,7 +5927,8 @@ var maintainloop = (() => {
 })();
 // This is the checking loop. Runs at 1Hz.
 var speedcheckloop = (() => {
-  let too_much_lag_streak = 0;
+  let too_much_lag_streak = 0,
+    perodic_gc_streak = 0;
   // Return the function
   return () => {
     let activationtime = logs.activation.sum(),
@@ -5957,13 +5958,6 @@ var speedcheckloop = (() => {
           (sum * roomSpeed * 3).toFixed(3) +
           "%! ~~"
       );
-      if (sum * roomSpeed > 333) {
-        too_much_lag_streak++;
-        if (too_much_lag_streak === 15) {
-          util.error("too much lag, restarting server");
-          process.exit(1);
-        }
-      } else too_much_lag_streak = 0;
       util.warn("Total activation time: " + activationtime);
       util.warn("Total collision time: " + collidetime);
       util.warn("Total cycle time: " + movetime);
@@ -5983,8 +5977,19 @@ var speedcheckloop = (() => {
             lifetime +
             selfietime)
       );
-      gc();
-    }
+      if (sum * roomSpeed > 333) {
+        too_much_lag_streak++;
+        if (too_much_lag_streak === 15) {
+          util.error("too much lag, restarting server");
+          process.exit(1);
+        }
+      } else too_much_lag_streak = 0;
+      if (!perodic_gc_streak++) {
+        util.log("gc");
+        gc();
+      }
+      perodic_gc_streak %= 10;
+    } else perodic_gc_streak = 0;
   };
 })();
 
