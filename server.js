@@ -3132,12 +3132,10 @@ const mockupJsonData = (() => {
       let xy3 = x3 * x3 + y3 * y3;
       let x =
         // Numerator
-        (xy1 * (y2 - y3) + xy2 * (y3 - y1) + xy3 * (y1 - y2)) /
-        (2 * denom);
+        (xy1 * (y2 - y3) + xy2 * (y3 - y1) + xy3 * (y1 - y2)) / (2 * denom);
       let y =
         // Numerator
-        (xy1 * (x3 - x2) + xy2 * (x1 - x3) + xy3 * (x2 - x1)) /
-        (2 * denom);
+        (xy1 * (x3 - x2) + xy2 * (x1 - x3) + xy3 * (x2 - x1)) / (2 * denom);
       let r = Math.sqrt(Math.pow(x - x1, 2) + Math.pow(y - y1, 2));
       let r2 = Math.sqrt(Math.pow(x - x2, 2) + Math.pow(y - y2, 2));
       let r3 = Math.sqrt(Math.pow(x - x3, 2) + Math.pow(y - y3, 2));
@@ -6000,24 +5998,26 @@ var speedcheckloop = (() => {
     let { pathname } = parse(url);
     switch (pathname) {
       case "/":
-        res.setHeader("Content-Type","text/html;charset=UTF-8");
+        res.setHeader("Content-Type", "text/html;charset=UTF-8");
         res.writeHead(200);
         res.end(
-          `<!DOCTYPE html><h3>Arras</h3><button onclick="location.href = 'http://arras.io/#host=' + location.host">Open</button>`
+          '<!DOCTYPE HTML><HTML LANG="EN"><HEAD><TITLE>arras.io private server</TITLE></HEAD><BODY><H1>arras.io private server</H1><UL><LI><INPUT ONCLICK="location=&quot;https://arras.io/#host=&quot;+location[&quot;host&quot;];" TYPE="BUTTON" VALUE="play"/></LI><LI><INPUT ONCLICK="location=&quot;https://glitch.com/edit/#!/&quot;+location[&quot;host&quot;];" TYPE="BUTTON" VALUE="view source code"/></LI></UL></BODY></HTML>'
         );
         break;
       case "/mockups.json":
-        res.setHeader("Content-Type","application/json;charset=UTF-8");
+        res.setHeader("Content-Type", "application/json;charset=UTF-8");
         res.writeHead(200);
         res.end(mockupJsonData);
         break;
       default:
-        res.setHeader("Content-Type","text/html;charset=UTF-8");
+        res.setHeader("Content-Type", "text/html;charset=UTF-8");
         res.writeHead(404);
-        res.end();
+        res.end(
+          '<!DOCTYPE HTML><HTML LANG="EN"><HEAD><TITLE>arras.io private server</TITLE></HEAD><BODY><H1>404 Not Found</H1></BODY></HTML>'
+        );
     }
   });
-  server.listen(process.env.PORT || 8080, ()=>{
+  server.listen(process.env.PORT || 8080, () => {
     util.log(
       new Date() +
         ". Joint HTTP+Websocket server turned on, listening on port " +
