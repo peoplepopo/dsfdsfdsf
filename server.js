@@ -1,12 +1,4 @@
-/*jslint node: true */
-/*jshint -W061 */
-/*global goog, Map, let */
 "use strict";
-
-// General requires
-/*require('google-closure-library');
-goog.require('goog.structs.PriorityQueue');
-goog.require('goog.structs.QuadTree');*/
 
 // Import game settings.
 const c = require('./config.json');
@@ -17,19 +9,9 @@ const ran = require('./lib/random');
 const hshg = require('./lib/hshg');
 const {LinkedList} = require('./lib/LinkedList');
 
-// Let's get a cheaper array removal thing
-/*Array.prototype.remove = index => {
-    if(index === this.length - 1){
-        return this.pop();
-    } else {
-        let r = this[index];
-        this[index] = this.pop();
-        return r;
-    }
-};*/
-
 if('function'!==typeof gc){
-  util.error('gc is not function, try running node with ""');
+  util.error('gc is not function, try running node with "--expose-gc"');
+  process.exit(1);
 }
 
 // Set up room.
@@ -2528,13 +2510,9 @@ var logs = (() => {
 })();
 
 // Essential server requires
-var http = require('http'),
-    url = require('url'),
-    WebSocket = require('ws'),
-    fs = require('fs'),
-    mockupJsonData = (() => { 
+const mockupJsonData = (() => { 
         function rounder(val) {
-            if (Math.abs(val) < 0.00001) val = 0;
+            if (Math.abs(val) < 0.00001) return 0;
             return +val.toPrecision(6);
         }
         // Define mocking up functions
@@ -4899,7 +4877,7 @@ var speedcheckloop = (() => {
               too_much_lag_streak++;
               if(too_much_lag_streak===15){
                 util.error('too much lag, restarting server');
-                process.exit(0);
+                process.exit(1);
               }
             }else too_much_lag_streak=0;
             util.warn('Total activation time: ' + activationtime);
@@ -4911,7 +4889,7 @@ var speedcheckloop = (() => {
             util.warn('Total entity life+thought cycle time: ' + lifetime);
             util.warn('Total entity selfie-taking time: ' + selfietime);
             util.warn('Total time: ' + (activationtime + collidetime + movetime + playertime + maptime + physicstime + lifetime + selfietime));
-            try_garbage_collecting();
+            gc();
         }
     };
 })();
@@ -4955,4 +4933,4 @@ let websockets = (() => {
 setInterval(gameloop, room.cycleSpeed);
 setInterval(maintainloop, 200);
 setInterval(speedcheckloop, 1000);
-try_garbage_collecting();
+gc();
