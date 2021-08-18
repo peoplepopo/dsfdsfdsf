@@ -4160,18 +4160,15 @@ const sockets = (() => {
             }
           }
           // Add the gun data to the array
-          let gundata = [data.guns.length];
+          output.push(data.guns.length);
           data.guns.forEach(lastShot => {
-            gundata.push(lastShot.time, lastShot.power);
+            output.push(lastShot.time, lastShot.power);
           });
-          output.push(...gundata);
           // For each turret, add their own output
-          let turdata = [data.turrets.length];
+          output.push(data.turrets.length);
           data.turrets.forEach(turret => {
-            turdata.push(...flatten(turret));
+            output.push.apply(output, flatten(turret));
           });
-          // Push all that to the array
-          output.push(...turdata);
           // Return it
           return output;
         }
@@ -5993,7 +5990,7 @@ var speedcheckloop = (() => {
 {
   const server = require("http").createServer(({ url }, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
-    switch (url.split("?",1)[0]) {
+    switch (url.split("?", 1)[0]) {
       case "/":
         res.setHeader("Content-Type", "text/html;charset=UTF-8");
         res.writeHead(200);
