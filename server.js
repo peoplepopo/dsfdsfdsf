@@ -5537,15 +5537,19 @@ var maintainloop = (() => {
       if (timer > 6000 && ran.dice(16000 - timer)) {
         util.log("[SPAWN] Preparing to spawn...");
         timer = 0;
-        let choice = [];
-        if(Math.round(Math.random())){
-            choice = [[Class.elite_destroyer], 2, "a", "nest"];
-
-            choice = [[Class.palisade], 1, "castle", "norm"];
-            sockets.broadcast("A strange trembling...");
-            break;
+        let choice;
+        if (Math.round(Math.random())) {
+          choice = [
+            [Class.elite_destroyer, Class.elite_gunner, Class.elite_sprayer],
+            2,
+            "a",
+            "nest"
+          ];
+        } else {
+          choice = [[Class.palisade], 1, "castle", "norm"];
+          sockets.broadcast("A strange trembling...");
         }
-        boss.prepareToSpawn(...choice);
+        boss.prepareToSpawn.apply(null, choice);
         setTimeout(boss.spawn, 3000);
         // Set the timeout for the spawn functions
       } else if (!census.miniboss) timer++;
