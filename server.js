@@ -34,9 +34,9 @@ const room = {
   maxFood: ((c.WIDTH * c.HEIGHT) / 20000) * c.FOOD_AMOUNT,
   isInRoom: location =>
     location.x >= 0 &&
-    location.x <= c.WIDTH &&
+    location.x < c.WIDTH &&
     location.y >= 0 &&
-    location.y <= c.HEIGHT,
+    location.y < c.HEIGHT,
   topPlayerID: -1
 };
 room.findType = type => {
