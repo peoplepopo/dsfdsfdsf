@@ -40,21 +40,17 @@ const room = {
   topPlayerID: -1
 };
 room.findType = type => {
-  let output = [];
-  let j = 0;
-  room.setup.forEach(row => {
-    let i = 0;
-    row.forEach(cell => {
-      if (cell === type) {
+  var output = [],
+    j,
+    i;
+  for (j = 0; j < room.setup.length; j++)
+    for (i = 0; i < room.setup[j].length; i++)
+      if (room.setup[j][i] === type) {
         output.push({
           x: ((i + 0.5) * room.width) / room.xgrid,
           y: ((j + 0.5) * room.height) / room.ygrid
         });
       }
-      i++;
-    });
-    j++;
-  });
   room[type] = output;
 };
 room.findType("nest");
@@ -5542,11 +5538,9 @@ var maintainloop = (() => {
         util.log("[SPAWN] Preparing to spawn...");
         timer = 0;
         let choice = [];
-        switch (ran.chooseChance(40, 1)) {
-          case 0:
+        if(Math.round(Math.random())){
             choice = [[Class.elite_destroyer], 2, "a", "nest"];
-            break;
-          case 1:
+
             choice = [[Class.palisade], 1, "castle", "norm"];
             sockets.broadcast("A strange trembling...");
             break;
