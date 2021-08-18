@@ -4075,17 +4075,15 @@ const sockets = (() => {
           // Set up the recording commands
           player.records = (() => {
             let begin = util.time();
-            return () => {
-              return [
-                player.body.skill.score,
-                Math.floor((util.time() - begin) / 1000),
-                player.body.killCount.solo,
-                player.body.killCount.assists,
-                player.body.killCount.bosses,
-                player.body.killCount.killers.length,
-                ...player.body.killCount.killers
-              ];
-            };
+            return () => [
+              player.body.skill.score,
+              Math.floor((util.time() - begin) / 1000),
+              player.body.killCount.solo,
+              player.body.killCount.assists,
+              player.body.killCount.bosses,
+              player.body.killCount.killers.length,
+              ...player.body.killCount.killers
+            ];
           })();
           // Set up the player's gui
           player.gui = newgui(player);
