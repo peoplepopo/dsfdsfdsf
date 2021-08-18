@@ -5986,7 +5986,7 @@ var speedcheckloop = (() => {
         util.log("gc");
         gc();
       }
-      perodic_gc_streak %= 3;
+      perodic_gc_streak %= 4;
     } else perodic_gc_streak = 0;
   };
 })();
@@ -5995,11 +5995,9 @@ var speedcheckloop = (() => {
 
 // Turn the server on
 {
-  const { parse } = require("url");
   const server = require("http").createServer(({ url }, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
-    let { pathname } = parse(url);
-    switch (pathname) {
+    switch (url.split("?",1)[0]) {
       case "/":
         res.setHeader("Content-Type", "text/html;charset=UTF-8");
         res.writeHead(200);
