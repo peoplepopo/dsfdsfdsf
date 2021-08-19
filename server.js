@@ -5761,8 +5761,7 @@ var maintainloop = (() => {
       rot() {
         if (--this.foodToMake < 0) {
           //util.debug('FoodSpawner rotted, respawning.');
-          util.remove(foodSpawners, foodSpawners.indexOf(this));
-          foodSpawners.push(new FoodSpawner());
+          foodSpawners[foodSpawners.indexOf(this)] = new FoodSpawner();
         }
       }
     }
