@@ -4158,22 +4158,26 @@ const sockets = (() => {
             }
           }
           // Add the gun data to the array
-          output.push(data.guns.length);
-          /*data.guns.forEach(lastShot => {
+          /*output.push(data.guns.length);
+          data.guns.forEach(lastShot => {
             output.push(lastShot.time, lastShot.power);
           });*/
           {
-            let g=data.guns,i=g.length,j=output.length+=i;
+            let g=data.guns,i=g.length,j=output.length+=1+2*i;
             while(i--){
-              output[j--]=g[i].power;
-              output[j--]=g[i].time;
+              output[--j]=g[i].power;
+              output[--j]=g[i].time;
             }
+            output[j-1]=g.length;
           }
           // For each turret, add their own output
-          output.push(data.turrets.length);
+          /*output.push(data.turrets.length);
           data.turrets.forEach(turret => {
              flatten(turret,output);
-          });
+          });*/
+          {
+            let t=data.turrets,l=t.length
+          }
           // Return it
           return output;
         }
