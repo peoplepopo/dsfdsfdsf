@@ -1663,7 +1663,15 @@ const dirtyCheck = (p, r) =>
 const grid = new hshg.HSHG();
 let entitiesIdLog = 0;
 const entities = new LinkedList();
-const purgeEntities = entities.filterInPlace.bind(entities, e => !e.isGhost);
+function purgeEntities() {
+  var item = entities;
+  while (item[0])
+    if (item[0][1].isGhost) {
+      item[0] = item[0][0];
+      entities.length--;
+    } else item = item[0];
+  entities.end = item;
+}
 
 var bringToLife = (() => {
   let remapTarget = (i, ref, self) => {
