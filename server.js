@@ -1256,14 +1256,14 @@ class Gun {
         }
       });
       this.natural = natural; // Save it
-      if (info.PROPERTIES.GUN_CONTROLLERS != null) {
+      /*if (info.PROPERTIES.GUN_CONTROLLERS != null) {
         this.controllers.unshift.apply(
           this.controllers,
           info.PROPERTIES.GUN_CONTROLLERS.map(ioName =>
             eval("new " + ioName + "(this)")
           )
         );
-      }
+      }*/
       this.autofire =
         info.PROPERTIES.AUTOFIRE == null ? false : info.PROPERTIES.AUTOFIRE;
       this.altFire =
