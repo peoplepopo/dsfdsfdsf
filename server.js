@@ -5735,6 +5735,9 @@ var maintainloop = (() => {
     // Define foodspawners
     class FoodSpawner {
       constructor() {
+        this.reset();
+      }
+      reset() {
         this.foodToMake = Math.ceil(
           Math.abs(ran.gauss(0, room.scale.linear * 80))
         );
@@ -5761,7 +5764,7 @@ var maintainloop = (() => {
       rot() {
         if (--this.foodToMake < 0) {
           //util.debug('FoodSpawner rotted, respawning.');
-          foodSpawners[foodSpawners.indexOf(this)] = new FoodSpawner();
+          this.reset();
         }
       }
     }
