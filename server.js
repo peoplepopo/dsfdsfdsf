@@ -2248,10 +2248,8 @@ class Entity {
       this.turrets = [];
       set.TURRETS.forEach(def => {
         o = new Entity(this, this.master);
-        /*(Array.isArray(def.TYPE) ? def.TYPE : [def.TYPE]).forEach(type =>
-          o.define(type)
-        );*/
-        if(Array.isArray(def.TYPE))
+        if (Array.isArray(def.TYPE)) def.TYPE.forEach(o.define, o);
+        else o.define(def.TYPE);
         o.bindToMaster(def.POSITION, this);
       });
     }
@@ -2409,7 +2407,7 @@ class Entity {
     let suc = this.skill.upgrade(stat);
     if (suc) {
       this.refreshBodyAttributes();
-      this.guns.forEach(function(gun) {
+      this.guns.forEach(gun => {
         gun.syncChildren();
       });
     }
@@ -3855,7 +3853,7 @@ const sockets = (() => {
             gui.points.update(b.skill.points);
             // Update the upgrades
             let upgrades = [];
-            b.upgrades.forEach(function(e) {
+            b.upgrades.forEach(e => {
               if (b.skill.level >= e.level) {
                 upgrades.push(e.index);
               }
