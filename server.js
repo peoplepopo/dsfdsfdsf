@@ -4106,7 +4106,7 @@ const sockets = (() => {
       // Make a function that will make a function that will send out world updates
       const eyes = (() => {
         // Define how to prepare data for submission
-        function flatten(data,output=[]) {
+        function flatten(data, output = []) {
           output.push(data.type); // We will remove the first entry in the persepective method
           if (data.type & 0x01) {
             output.push(
@@ -4163,12 +4163,14 @@ const sockets = (() => {
             output.push(lastShot.time, lastShot.power);
           });*/
           {
-            let g=data.guns,i=g.length,j=output.length+=1+2*i;
-            while(i--){
-              output[--j]=g[i].power;
-              output[--j]=g[i].time;
+            let g = data.guns,
+              i = g.length,
+              j = (output.length += 1 + 2 * i);
+            while (i--) {
+              output[--j] = g[i].power;
+              output[--j] = g[i].time;
             }
-            output[j-1]=g.length;
+            output[--j] = g.length;
           }
           // For each turret, add their own output
           /*output.push(data.turrets.length);
@@ -4176,7 +4178,11 @@ const sockets = (() => {
              flatten(turret,output);
           });*/
           {
-            let t=data.turrets,l=t.length
+            let t = data.turrets,
+              l = t.length,
+              i = 0;
+            output.push(l);
+            while (i < l) flatten(t[i++], output);
           }
           // Return it
           return output;
