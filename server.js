@@ -1226,7 +1226,7 @@ class Gun {
     this.body = body;
     this.master = body.source;
     this.label = "";
-    this.controllers = new LinkedList();
+    //this.controllers = new LinkedList();
     this.children = new LinkedList();
     this.control = {
       target: new Vector(0, 0),
@@ -2182,11 +2182,8 @@ class Entity {
       this.abilities = set.ALT_ABILITIES;
     }
     if (set.GUNS != null) {
-      let newGuns = [];
-      set.GUNS.forEach(gundef => {
-        newGuns.push(new Gun(this, gundef));
-      });
-      this.guns = newGuns;
+      let l = (this.guns.length = set.GUNS.length);
+      while (l--) this.guns[l] = new Gun(this, set.GUNS[l]);
     }
     if (set.MAX_CHILDREN != null) {
       this.maxChildren = set.MAX_CHILDREN;
@@ -2251,9 +2248,10 @@ class Entity {
       this.turrets = [];
       set.TURRETS.forEach(def => {
         o = new Entity(this, this.master);
-        (Array.isArray(def.TYPE) ? def.TYPE : [def.TYPE]).forEach(type =>
+        /*(Array.isArray(def.TYPE) ? def.TYPE : [def.TYPE]).forEach(type =>
           o.define(type)
-        );
+        );*/
+        if(Array.isArray(def.TYPE))
         o.bindToMaster(def.POSITION, this);
       });
     }
