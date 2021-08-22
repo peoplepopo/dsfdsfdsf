@@ -5287,10 +5287,7 @@ var gameloop = (() => {
       }
     }
     // The actual collision resolution function
-    return collision => {
-      // Pull the two objects from the collision grid
-      let instance = collision[0],
-        other = collision[1];
+    return ([instance, other]) => {
       // Check for ghosts...
       if (other.isGhost) {
         util.error("GHOST FOUND");
