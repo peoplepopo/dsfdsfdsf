@@ -6007,7 +6007,7 @@ var speedcheckloop = (() => {
         res.setHeader("Content-Type", "text/html;charset=UTF-8");
         res.writeHead(200);
         res.end(
-          '<!DOCTYPE HTML><HTML LANG="EN"><HEAD><TITLE>arras.io private server</TITLE></HEAD><BODY><H1>arras.io private server</H1><UL><LI><INPUT ONCLICK="location=&quot;https://arras.io/#host=&quot;+location[&quot;host&quot;];" TYPE="BUTTON" VALUE="play"/></LI><LI><INPUT ONCLICK="location=&quot;https://glitch.com/edit/#!/&quot;+location[&quot;host&quot;];" TYPE="BUTTON" VALUE="view source code"/></LI></UL></BODY></HTML>'
+          '<!DOCTYPE HTML><HTML LANG="EN"><HEAD><TITLE>arras.io private server</TITLE></HEAD><BODY ONLOAD="var h=document[&quot;location&quot;][&quot;host&quot;];document[&quot;getElementById&quot;](&quot;play&quot;)[&quot;href&quot;]=&quot;https://arras.io/#host=&quot;+h;document[&quot;getElementById&quot;](&quot;source&quot;)[&quot;href&quot;]=&quot;https://glitch.com/edit/#!/&quot;+h;"><H1>arras.io private server</H1><UL><LI><A ID="play">play</A></LI><LI><A ID="source">view source code</A></LI></UL></BODY></HTML>'
         );
         break;
       case "/mockups.json":
