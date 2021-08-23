@@ -5416,7 +5416,6 @@ var gameloop = (() => {
       // Load the grid
       grid.update();
       // Run collisions in each grid
-      colpairs.clear();
       grid.queryForCollisionPairs(collide);
     }
     logs.collide.mark();
