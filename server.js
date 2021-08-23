@@ -5287,7 +5287,7 @@ var gameloop = (() => {
       }
     }
     // The actual collision resolution function
-    return ([instance, other]) => {
+    return (instance, other) => {
       // Check for ghosts...
       if (other.isGhost) {
         util.error("GHOST FOUND");
@@ -5404,7 +5404,6 @@ var gameloop = (() => {
   }
   let time;
   // Return the loop function
-  const colpairs = new LinkedList();
   return () => {
     logs.loops.tally();
     logs.master.set();
@@ -5418,7 +5417,7 @@ var gameloop = (() => {
       grid.update();
       // Run collisions in each grid
       colpairs.clear();
-      grid.queryForCollisionPairs(colpairs).forEach(collide);
+      grid.queryForCollisionPairs(collide);
     }
     logs.collide.mark();
     // Do entities life
