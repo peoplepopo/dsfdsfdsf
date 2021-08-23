@@ -5295,12 +5295,7 @@ var gameloop = (() => {
         util.error("x: " + other.x + " y: " + other.y);
         util.error(other.collisionArray);
         util.error("health: " + other.health.amount);
-        util.warn("Ghost removed.");
-        if (grid.checkIfInHSHG(other)) {
-          util.warn("Ghost removed.");
-          grid.removeObject(other);
-        }
-        return 0;
+        process.exit(1);
       }
       if (instance.isGhost) {
         util.error("GHOST FOUND");
@@ -5308,11 +5303,7 @@ var gameloop = (() => {
         util.error("x: " + instance.x + " y: " + instance.y);
         util.error(instance.collisionArray);
         util.error("health: " + instance.health.amount);
-        if (grid.checkIfInHSHG(instance)) {
-          util.warn("Ghost removed.");
-          grid.removeObject(instance);
-        }
-        return 0;
+        process.exit(1);
       }
       if (!instance.activation.check() && !other.activation.check()) {
         util.warn("Tried to collide with an inactive instance.");
