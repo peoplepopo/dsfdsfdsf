@@ -1823,7 +1823,7 @@ class HealthType {
 class Entity {
   constructor(position, master = this) {
     this.isGhost = false;
-    this.killCount = { solo: 0, assists: 0, bosses: 0, killers: [] };
+    this.killCount = { solo: 0, assists: 0, bosses: 0, killers: new LinkedList };
     this.creationTime = new Date().getTime();
     // Inheritance
     this.master = master;
