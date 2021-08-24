@@ -2,6 +2,10 @@
 
 // Import game settings.
 const c = require("./config.json");
+const BANNED_CHARACTERS_REGEX = RegExp.apply(
+  null,
+  c.BANNED_CHARACTER_REGEX.split("/", 3).slice(1)
+);
 
 // Import utilities.
 const util = require("./lib/util");
@@ -1823,7 +1827,12 @@ class HealthType {
 class Entity {
   constructor(position, master = this) {
     this.isGhost = false;
-    this.killCount = { solo: 0, assists: 0, bosses: 0, killers: new LinkedList };
+    this.killCount = {
+      solo: 0,
+      assists: 0,
+      bosses: 0,
+      killers: new LinkedList()
+    };
     this.creationTime = new Date().getTime();
     // Inheritance
     this.master = master;
@@ -3357,13 +3366,14 @@ const sockets = (() => {
                 return 1;
               }
               // Get data
-              let name = m[0].replace(c.BANNED_CHARACTERS_REGEX, "");
+              let name = m[0];
               let needsRoom = m[1];
               // Verify it
               if (typeof name != "string") {
                 socket.kick("Bad spawn request.");
                 return 1;
               }
+              name = name.replace(BANNED_CHARACTERS_REGEX, "");
               if (encodeURI(name).split(/%..|./).length > 48) {
                 socket.kick("Overly-long name.");
                 return 1;
