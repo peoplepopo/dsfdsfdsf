@@ -1925,9 +1925,9 @@ class Entity {
     this.getAABB = (() => {
       let data = {},
         savedSize = 0;
-      let getLongestEdge = (x1, y1, x2, y2) => {
+      /*let getLongestEdge = (x1, y1, x2, y2) => {
         return Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1));
-      };
+      };*/
       this.updateAABB = active => {
         if (this.bond != null) return 0;
         if (!active) {
@@ -1952,7 +1952,7 @@ class Entity {
           this.realSize +
           5;
         // Size check
-        let size = getLongestEdge(x1, y1, x2, y1);
+        let size = Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1));//getLongestEdge(x1, y1, x2, y1);
         let sizeDiff = savedSize / size;
         // Update data
         data = {
@@ -1968,9 +1968,7 @@ class Entity {
           savedSize = data.size;
         }
       };
-      return () => {
-        return data;
-      };
+      return () => data;
     })();
     this.updateAABB(true);
     entities.push(this); // everything else
