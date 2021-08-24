@@ -1562,17 +1562,15 @@ class Gun {
               : this.bulletStats.rld)
         : true;
       if (shootPermission) {
-        let save = {
-          facing: host.facing,
-          size: host.SIZE
-        };
+        const facing = host.facing;
+        const size = host.SIZE;
         host.define(Class.genericEntity);
         this.bulletInit(host);
         host.team = oo.master.master.team;
         host.master = oo.master;
         host.color = oo.color;
-        host.facing = save.facing;
-        host.SIZE = save.size;
+        host.facing = facing;
+        host.SIZE = size;
         host.health.amount = host.health.max;
         return true;
       }
