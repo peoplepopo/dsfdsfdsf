@@ -1708,7 +1708,7 @@ var bringToLife = (() => {
       my.range -= 1;
     }
     // Invisibility
-    if (my.invisible[1]) {
+    if (default_invis !== my.invisible) {
       my.alpha = Math.max(0, my.alpha - my.invisible[1]);
       const { x, y } = my.velocity;
       if (x * x + y * y <= 0.01 || my.damageReceived)
@@ -1816,6 +1816,8 @@ class HealthType {
   }
 }
 
+const default_invis = [0, 0];
+const do_nothing_function = () => {};
 class Entity {
   constructor(position, master = this) {
     this.isGhost = false;
@@ -1825,7 +1827,7 @@ class Entity {
       bosses: 0,
       killers: new LinkedList()
     };
-    this.creationTime = new Date().getTime();
+    this.creationTime = Date.now();
     // Inheritance
     this.master = master;
     this.source = this;
@@ -1909,13 +1911,13 @@ class Entity {
     this.collisionArray = new LinkedList();
     this.invuln = false;
     this.alpha = 1;
-    this.invisible = [0, 0];
+    this.invisible = default_invis;
     // Get a new unique id
     this.id = entitiesIdLog++;
-    this.team = this.id;
+    //this.team = this.id;
     this.team = master.team;
     // This is for collisions
-    this.updateAABB = () => {};
+    this.updateAABB = do_nothing_function;
     this.getAABB = (() => {
       let data = {},
         savedSize = 0;
