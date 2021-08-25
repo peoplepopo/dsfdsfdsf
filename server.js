@@ -163,10 +163,10 @@ class Vector {
     this.y = y;
   }
 
-  update() {
+  /*update() {
     this.len = this.length;
     this.dir = this.direction;
-  }
+  }*/
 
   get length() {
     return Math.sqrt(this.x * this.x + this.y * this.y);
