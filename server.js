@@ -6045,3 +6045,9 @@ setInterval(gameloop, room.cycleSpeed);
 setInterval(maintainloop, 200);
 setInterval(speedcheckloop, 1000);
 gc();
+
+{
+  const e=new Entity({x:0,y:0});
+  e.define(Class.palisade);
+  entities.push(e);
+}
