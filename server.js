@@ -169,7 +169,7 @@ class Vector {
   }
 
   get length() {
-    return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
+    return Math.sqrt(this.x * this.x + this.y * this.y);
   }
 
   get direction() {
@@ -1952,7 +1952,7 @@ class Entity {
           this.realSize +
           5;
         // Size check
-        let size = Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1));//getLongestEdge(x1, y1, x2, y1);
+        let size = Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1)); //getLongestEdge(x1, y1, x2, y1);
         let sizeDiff = savedSize / size;
         // Update data
         data = {
