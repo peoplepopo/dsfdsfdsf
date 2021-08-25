@@ -6045,12 +6045,3 @@ setInterval(gameloop, room.cycleSpeed);
 setInterval(maintainloop, 200);
 setInterval(speedcheckloop, 1000);
 gc();
-
-for(const d of Object.values(Class)){
-  if(d===Class.skimboss||/lag test|/)continue;
-  const e=new Entity({x:0,y:0});
-  e.define(d);
-  e.name="test";
-  e.team=-100;
-  entities.push(e);
-}
