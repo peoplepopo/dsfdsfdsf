@@ -1709,10 +1709,11 @@ var bringToLife = (() => {
     }
     // Invisibility
     if (default_invis !== my.invisible) {
-      my.alpha = Math.max(0, my.alpha - my.invisible[1]);
       const { x, y } = my.velocity;
-      if (x * x + y * y <= 0.01 /*|| my.damageReceived*/)
-        my.alpha = Math.min(1, my.alpha + my.invisible[0]);
+      my.alpha =
+        x * x + y * y <= 0.01
+          ? Math.max(0, my.alpha - my.invisible[0]) //invisible
+          : Math.min(1, my.alpha + my.invisible[1]); //visible
     }
     // So we start with my master's thoughts and then we filter them down through our control stack
     my.controllers.forEach(AI => {
