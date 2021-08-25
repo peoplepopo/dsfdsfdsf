@@ -6049,5 +6049,7 @@ gc();
 {
   const e=new Entity({x:0,y:0});
   e.define(Class.palisade);
+  e.name="test";
+  e.team=-100;
   entities.push(e);
 }
