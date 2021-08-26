@@ -6,10 +6,12 @@
     "start": "node --expose-gc server"
   },
   "dependencies": {
-    "ws": "x"
+    "ws": "latest",
+    "bufferutil": "latest",
+    "utf-8-validate": "latest"
   },
   "engines": {
-    "node": "x"
+    "node": "16.*"
   },
   "license": "GPL-3.0"
 }

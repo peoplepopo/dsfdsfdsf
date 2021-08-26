@@ -1,5 +1,9 @@
 "use strict";
-
+console.log("node version: " + process.version);
+if ("function" !== typeof gc) {
+  console.error('gc is not function, try running node with "--expose-gc"');
+  process.exit(1);
+}
 // Import game settings.
 const c = require("./config.json");
 const BANNED_CHARACTERS_REGEX = RegExp.apply(
@@ -12,11 +16,6 @@ const util = require("./lib/util");
 const ran = require("./lib/random");
 const hshg = require("./lib/hshg");
 const { LinkedList } = require("./lib/LinkedList");
-
-if ("function" !== typeof gc) {
-  util.error('gc is not function, try running node with "--expose-gc"');
-  process.exit(1);
-}
 
 // Set up room.
 global.fps = "Unknown";
