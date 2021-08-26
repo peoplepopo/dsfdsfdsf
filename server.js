@@ -5932,8 +5932,7 @@ var maintainloop = (() => {
 })();
 // This is the checking loop. Runs at 1Hz.
 var speedcheckloop = (() => {
-  let too_much_lag_streak = 0,
-    perodic_gc_streak = 0;
+  let too_much_lag_streak = 0;
   // Return the function
   return () => {
     let activationtime = logs.activation.sum(),
@@ -5989,12 +5988,8 @@ var speedcheckloop = (() => {
           process.exit(1);
         }
       } else too_much_lag_streak = 0;
-      if (!perodic_gc_streak++) {
-        util.log("gc");
-        gc();
-      }
-      perodic_gc_streak %= 4;
-    } else perodic_gc_streak = 0;
+      gc();
+    }
   };
 })();
 
