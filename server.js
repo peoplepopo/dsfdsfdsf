@@ -3379,7 +3379,7 @@ const sockets = (() => {
               // Define the player.
               players.removeFirst(socket.player);
               // Free the old view
-              views.removeFirst2(socket.view, socket.makeView.bind(socket));
+              if(views.removeFirst(socket.view))socket.makeView();
               socket.player = socket.spawn(name);
               // Give it the room state
               if (!needsRoom) {
