@@ -205,6 +205,9 @@ function nearest(array, location, test = _ret_true) {
       nearestEnt = instance;
     }
   });
+  if(!nearestEnt){
+    util.error("no nearest: "+nearestDist,[...array]);
+  }
   return nearestEnt;
 }
 function timeOfImpact(p, v, s) {
