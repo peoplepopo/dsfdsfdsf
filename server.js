@@ -2847,7 +2847,7 @@ class Entity {
   sendMessage(message) {} // Dummy
 
   kill() {
-    this.health.amount = Number.MIN_SAFE_INTEGER;
+    this.isDead=_ret_true;
   }
 
   destroy() {
