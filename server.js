@@ -203,11 +203,15 @@ function nearest(array, location, test = _ret_true) {
     if (d < nearestDist && test(instance, d)) {
       nearestDist = d;
       nearestEnt = instance;
+    }else if(nearestDist===Infinity){
+      util.error("wtf!?");
+      util.error("ix="+instance.x);
+      util.error("iy="+instance.y);
+      util.error("lx="+location.x);
+      util.error("ly="+location.y);
+      util.error("d="+d);
     }
   });
-  if(!nearestEnt){
-    util.error("no nearest: "+nearestDist,[...array]);
-  }
   return nearestEnt;
 }
 function timeOfImpact(p, v, s) {
