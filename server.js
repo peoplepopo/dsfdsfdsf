@@ -1026,7 +1026,7 @@ class Skill {
     this.score = 0;
     this.deduction = 0;
     this.level = 0;
-    this.canUpgrade = false;
+    //this.canUpgrade = false;
     this.update();
     this.maintain();
   }
@@ -1122,13 +1122,13 @@ class Skill {
         this.deduction += this.levelScore;
         this.level += 1;
         this.points += this.levelPoints;
-        if (
+        /*if (
           this.level == c.TIER_1 ||
           this.level == c.TIER_2 ||
           this.level == c.TIER_3
         ) {
           this.canUpgrade = true;
-        }
+        }*/
         this.update();
         return true;
       }
