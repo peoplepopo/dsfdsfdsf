@@ -2847,7 +2847,6 @@ class Entity {
   sendMessage(message) {} // Dummy
 
   kill() {
-    this.collisionArray.clear();
     this.health.amount = Number.MIN_SAFE_INTEGER;
   }
 
