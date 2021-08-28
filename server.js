@@ -203,13 +203,6 @@ function nearest(array, location, test = _ret_true) {
     if (d < nearestDist && test(instance, d)) {
       nearestDist = d;
       nearestEnt = instance;
-    }else if(nearestDist===Infinity){
-      util.error("wtf!?");
-      util.error("ix="+instance.x);
-      util.error("iy="+instance.y);
-      util.error("lx="+location.x);
-      util.error("ly="+location.y);
-      util.error("d="+d);
     }
   });
   return nearestEnt;
@@ -2854,6 +2847,7 @@ class Entity {
   sendMessage(message) {} // Dummy
 
   kill() {
+    this.collisionArray.clear();
     this.health.amount = Number.MIN_SAFE_INTEGER;
   }
 
@@ -5890,11 +5884,6 @@ var maintainloop = (() => {
           overflow = 10;
           // Find the nearest one that's not the last one
           do {
-            const pos={ x: ran.gauss(o.x, 30), y: ran.gauss(o.y, 30) };
-            if(pos.x!==pos.x||pos.y!==pos.y){
-              console.log("GLITCHED!!!",o);
-              return;
-            }
             o = nearest(food, { x: ran.gauss(o.x, 30), y: ran.gauss(o.y, 30) });
           } while (o.id === oldId && --overflow);
           if (!overflow) continue;

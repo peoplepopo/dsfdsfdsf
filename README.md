@@ -1,4 +1,4 @@
-# Arras.io Private Server Template with LinkedLists and anti lag (food spawning is brokenish)
+# Arras.io Private Server Template with LinkedLists and anti lag
 
 ## Quick Start Guide
 
