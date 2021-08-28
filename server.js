@@ -2121,7 +2121,7 @@ class Entity {
         : 1;
     }
     if (set.RESET_UPGRADES) {
-      this.upgrades = [];
+      this.upgrades.length=0;
     }
     if (set.UPGRADES_TIER_1 != null) {
       set.UPGRADES_TIER_1.forEach(e => {
@@ -2254,7 +2254,7 @@ class Entity {
     if (set.TURRETS != null) {
       let o;
       this.turrets.forEach(o => o.destroy());
-      this.turrets = [];
+      this.turrets.length=0;
       set.TURRETS.forEach(def => {
         o = new Entity(this, this.master);
         if (Array.isArray(def.TYPE)) def.TYPE.forEach(o.define, o);
