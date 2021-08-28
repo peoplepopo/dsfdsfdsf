@@ -5890,6 +5890,11 @@ var maintainloop = (() => {
           overflow = 10;
           // Find the nearest one that's not the last one
           do {
+            const pos={ x: ran.gauss(o.x, 30), y: ran.gauss(o.y, 30) };
+            if(pos.x!==pos.x||pos.y!==pos.y){
+              console.log("GLITCHED!!!",o);
+              return;
+            }
             o = nearest(food, { x: ran.gauss(o.x, 30), y: ran.gauss(o.y, 30) });
           } while (o.id === oldId && --overflow);
           if (!overflow) continue;
