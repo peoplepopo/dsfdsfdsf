@@ -115,8 +115,8 @@ room.gaussRing = (radius, clustering) => {
 };
 room.isIn = (type, location) => {
   if (room.isInRoom(location)) {
-    let a = Math.floor((location.y * room.ygrid) / room.height);
-    let b = Math.floor((location.x * room.xgrid) / room.width);
+    let a = ((location.y * room.ygrid) / room.height)>>0;
+    let b = ((location.x * room.xgrid) / room.width)>>0;
     return type === room.setup[a][b];
   } else {
     return false;
@@ -124,7 +124,7 @@ room.isIn = (type, location) => {
 };
 room.isInNorm = location => {
   if (room.isInRoom(location)) {
-    let a = Math.floor((location.y * room.ygrid) / room.height);
+    let a = ((location.y * room.ygrid) / room.height);
     let b = Math.floor((location.x * room.xgrid) / room.width);
     let v = room.setup[a][b];
     return v !== "nest";
@@ -5874,7 +5874,7 @@ var maintainloop = (() => {
       /************* UPGRADE FOOD ************/
       if (!food.length) return 0;
       for (let i = Math.ceil(food.length / 100); i > 0; i--) {
-        let o = food[0][1], // A random food instance (this is brokenish part)
+        let o = food.random(), // A random food instance
           oldId = -1000,
           overflow,
           location;
