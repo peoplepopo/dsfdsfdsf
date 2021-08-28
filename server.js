@@ -1985,9 +1985,7 @@ class Entity {
 
   define(set) {
     if (set.PARENT != null) {
-      for (let i = 0; i < set.PARENT.length; i++) {
-        this.define(set.PARENT[i]);
-      }
+      set.PARENT.forEach(this.define,this);
     }
     if (set.index != null) {
       this.index = set.index;
@@ -2252,11 +2250,10 @@ class Entity {
       this.refreshBodyAttributes();
     }
     if (set.TURRETS != null) {
-      let o;
       this.turrets.forEach(o => o.destroy());
       this.turrets.length=0;
       set.TURRETS.forEach(def => {
-        o = new Entity(this, this.master);
+        const o = new Entity(this, this.master);
         if (Array.isArray(def.TYPE)) def.TYPE.forEach(o.define, o);
         else o.define(def.TYPE);
         o.bindToMaster(def.POSITION, this);
