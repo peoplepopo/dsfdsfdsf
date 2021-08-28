@@ -197,9 +197,9 @@ function nearest(array, location, test = _ret_true) {
   var nearestDist = Infinity,
     nearestEnt;
   array.forEach(function(instance) {
-    var d =
-      Math.pow(instance.x - location.x, 2) +
-      Math.pow(instance.y - location.y, 2);
+    var x=instance.x - location.x;
+    var y=instance.y - location.y;
+    var d=x*x+y*y;
     if (d < nearestDist && test(instance, d)) {
       nearestDist = d;
       nearestEnt = instance;
@@ -5824,7 +5824,7 @@ var maintainloop = (() => {
           if (instance.type === "tank") {
             census.tank++;
           } else if (instance.foodLevel > -1) {
-            if (room.isIn("nest", { x: instance.x, y: instance.y })) {
+            if (room.isIn("nest", instance)) {
               censusNest.sum++;
               censusNest[instance.foodLevel]++;
             } else {
