@@ -124,8 +124,8 @@ room.isIn = (type, location) => {
 };
 room.isInNorm = location => {
   if (room.isInRoom(location)) {
-    let a = ((location.y * room.ygrid) / room.height);
-    let b = Math.floor((location.x * room.xgrid) / room.width);
+    let a = ((location.y * room.ygrid) / room.height)>>0;
+    let b = ((location.x * room.xgrid) / room.width)>>0;
     let v = room.setup[a][b];
     return v !== "nest";
   } else {
@@ -4088,7 +4088,7 @@ const sockets = (() => {
             let begin = util.time();
             return () => [
               player.body.skill.score,
-              Math.floor((util.time() - begin) / 1000),
+              ((util.time() - begin) / 1000)>>0,
               player.body.killCount.solo,
               player.body.killCount.assists,
               player.body.killCount.bosses,
@@ -4670,8 +4670,8 @@ const sockets = (() => {
                 id: my.id,
                 data: [
                   my.type === "wall" ? (my.shape === 4 ? 2 : 1) : 0,
-                  util.clamp(Math.floor((256 * my.x) / room.width), 0, 255),
-                  util.clamp(Math.floor((256 * my.y) / room.height), 0, 255),
+                  util.clamp(((256 * my.x) / room.width)>>0, 0, 255),
+                  util.clamp(((256 * my.y) / room.height)>>0, 0, 255),
                   my.color,
                   Math.round(my.SIZE)
                 ]
@@ -4692,9 +4692,9 @@ const sockets = (() => {
                   all.push({
                     id: my.id,
                     data: [
-                      util.clamp(Math.floor((256 * my.x) / room.width), 0, 255),
+                      util.clamp(((256 * my.x) / room.width)>>0, 0, 255),
                       util.clamp(
-                        Math.floor((256 * my.y) / room.height),
+                        ((256 * my.y) / room.height)>>0,
                         0,
                         255
                       ),
