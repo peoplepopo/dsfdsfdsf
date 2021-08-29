@@ -115,8 +115,8 @@ room.gaussRing = (radius, clustering) => {
 };
 room.isIn = (type, location) => {
   if (room.isInRoom(location)) {
-    let a = ((location.y * room.ygrid) / room.height)>>0;
-    let b = ((location.x * room.xgrid) / room.width)>>0;
+    let a = ((location.y * room.ygrid) / room.height) >> 0;
+    let b = ((location.x * room.xgrid) / room.width) >> 0;
     return type === room.setup[a][b];
   } else {
     return false;
@@ -124,8 +124,8 @@ room.isIn = (type, location) => {
 };
 room.isInNorm = location => {
   if (room.isInRoom(location)) {
-    let a = ((location.y * room.ygrid) / room.height)>>0;
-    let b = ((location.x * room.xgrid) / room.width)>>0;
+    let a = ((location.y * room.ygrid) / room.height) >> 0;
+    let b = ((location.x * room.xgrid) / room.width) >> 0;
     let v = room.setup[a][b];
     return v !== "nest";
   } else {
@@ -197,9 +197,9 @@ function nearest(array, location, test = _ret_true) {
   var nearestDist = Infinity,
     nearestEnt;
   array.forEach(function(instance) {
-    var x=instance.x - location.x;
-    var y=instance.y - location.y;
-    var d=x*x+y*y;
+    var x = instance.x - location.x;
+    var y = instance.y - location.y;
+    var d = x * x + y * y;
     if (d < nearestDist && test(instance, d)) {
       nearestDist = d;
       nearestEnt = instance;
@@ -1985,7 +1985,7 @@ class Entity {
 
   define(set) {
     if (set.PARENT != null) {
-      set.PARENT.forEach(this.define,this);
+      set.PARENT.forEach(this.define, this);
     }
     if (set.index != null) {
       this.index = set.index;
@@ -2119,7 +2119,7 @@ class Entity {
         : 1;
     }
     if (set.RESET_UPGRADES) {
-      this.upgrades.length=0;
+      this.upgrades.length = 0;
     }
     if (set.UPGRADES_TIER_1 != null) {
       set.UPGRADES_TIER_1.forEach(e => {
@@ -2251,7 +2251,7 @@ class Entity {
     }
     if (set.TURRETS != null) {
       this.turrets.forEach(o => o.destroy());
-      this.turrets.length=0;
+      this.turrets.length = 0;
       set.TURRETS.forEach(def => {
         const o = new Entity(this, this.master);
         if (Array.isArray(def.TYPE)) def.TYPE.forEach(o.define, o);
@@ -2844,7 +2844,7 @@ class Entity {
   sendMessage(message) {} // Dummy
 
   kill() {
-    this.isDead=_ret_true;
+    this.isDead = _ret_true;
   }
 
   destroy() {
@@ -3376,7 +3376,7 @@ const sockets = (() => {
               // Define the player.
               players.removeFirst(socket.player);
               // Free the old view
-              if(views.removeFirst(socket.view))socket.makeView();
+              if (views.removeFirst(socket.view)) socket.makeView();
               socket.player = socket.spawn(name);
               // Give it the room state
               if (!needsRoom) {
@@ -3475,15 +3475,13 @@ const sockets = (() => {
                 return 1;
               }
               // Get data
-              let target = {
-                  x: m[0],
-                  y: m[1]
-                },
+              let targetX = m[0],
+                targetY = m[1],
                 commands = m[2];
               // Verify data
               if (
-                typeof target.x !== "number" ||
-                typeof target.y !== "number" ||
+                typeof targetX !== "number" ||
+                typeof targetY !== "number" ||
                 typeof commands !== "number"
               ) {
                 socket.kick("Weird downlink.");
@@ -3494,7 +3492,9 @@ const sockets = (() => {
                 return 1;
               }
               // Put the new target in
-              player.target = target;
+              if (!player.target) player.target = {};
+              player.target.x = targetX;
+              player.target.y = targetY;
               // Process the commands
               if (player.command != null && player.body != null) {
                 player.command.up = commands & 1;
@@ -4085,7 +4085,7 @@ const sockets = (() => {
             let begin = util.time();
             return () => [
               player.body.skill.score,
-              ((util.time() - begin) / 1000)>>0,
+              ((util.time() - begin) / 1000) >> 0,
               player.body.killCount.solo,
               player.body.killCount.assists,
               player.body.killCount.bosses,
@@ -4667,8 +4667,8 @@ const sockets = (() => {
                 id: my.id,
                 data: [
                   my.type === "wall" ? (my.shape === 4 ? 2 : 1) : 0,
-                  util.clamp(((256 * my.x) / room.width)>>0, 0, 255),
-                  util.clamp(((256 * my.y) / room.height)>>0, 0, 255),
+                  util.clamp(((256 * my.x) / room.width) >> 0, 0, 255),
+                  util.clamp(((256 * my.y) / room.height) >> 0, 0, 255),
                   my.color,
                   Math.round(my.SIZE)
                 ]
@@ -4689,12 +4689,8 @@ const sockets = (() => {
                   all.push({
                     id: my.id,
                     data: [
-                      util.clamp(((256 * my.x) / room.width)>>0, 0, 255),
-                      util.clamp(
-                        ((256 * my.y) / room.height)>>0,
-                        0,
-                        255
-                      ),
+                      util.clamp(((256 * my.x) / room.width) >> 0, 0, 255),
+                      util.clamp(((256 * my.y) / room.height) >> 0, 0, 255),
                       my.color
                     ]
                   });
