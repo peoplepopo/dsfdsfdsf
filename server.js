@@ -2947,42 +2947,38 @@ const mockupJsonData = (() => {
     return +val.toPrecision(6);
   }
   // Define mocking up functions
-  function getMockup(e, positionInfo) {
-    return {
-      index: e.index,
-      name: e.label,
-      x: rounder(e.x),
-      y: rounder(e.y),
-      color: e.color,
-      shape: e.shapeData,
-      size: rounder(e.size),
-      realSize: rounder(e.realSize),
-      facing: rounder(e.facing),
-      layer: e.layer,
-      statnames: e.settings.skillNames,
-      position: positionInfo,
-      upgrades: e.upgrades.map(r => ({ tier: r.tier, index: r.index })),
-      guns: e.guns.map(function(gun) {
-        return {
-          offset: rounder(gun.offset),
-          direction: rounder(gun.direction),
-          length: rounder(gun.length),
-          width: rounder(gun.width),
-          aspect: rounder(gun.aspect),
-          angle: rounder(gun.angle)
-        };
-      }),
-      turrets: e.turrets.map(function(t) {
-        let out = getMockup(t, {});
-        out.sizeFactor = rounder(t.bound.size);
-        out.offset = rounder(t.bound.offset);
-        out.direction = rounder(t.bound.direction);
-        out.layer = rounder(t.bound.layer);
-        out.angle = rounder(t.bound.angle);
-        return out;
-      })
-    };
-  }
+  const getMockup = (e, positionInfo) => ({
+    index: e.index,
+    name: e.label,
+    x: rounder(e.x),
+    y: rounder(e.y),
+    color: e.color,
+    shape: e.shapeData,
+    size: rounder(e.size),
+    realSize: rounder(e.realSize),
+    facing: rounder(e.facing),
+    layer: e.layer,
+    statnames: e.settings.skillNames,
+    position: positionInfo,
+    upgrades: e.upgrades.map(r => ({ tier: r.tier, index: r.index })),
+    guns: e.guns.map(gun => ({
+      offset: rounder(gun.offset),
+      direction: rounder(gun.direction),
+      length: rounder(gun.length),
+      width: rounder(gun.width),
+      aspect: rounder(gun.aspect),
+      angle: rounder(gun.angle)
+    })),
+    turrets: e.turrets.map(t => {
+      let out = getMockup(t, {});
+      out.sizeFactor = rounder(t.bound.size);
+      out.offset = rounder(t.bound.offset);
+      out.direction = rounder(t.bound.direction);
+      out.layer = rounder(t.bound.layer);
+      out.angle = rounder(t.bound.angle);
+      return out;
+    })
+  });
   function getDimensions(entities) {
     /* Ritter's Algorithm (Okay it got serious modified for how we start it)
      * 1) Add all the ends of the guns to our list of points needed to be bounded and a couple points for the body of the tank..
@@ -3936,8 +3932,8 @@ const sockets = (() => {
             };
             // This is the gui itself
             return {
-              update: update.bind(null,gui),
-              publish: publish.bind(null,gui)
+              update: update.bind(null, gui),
+              publish: publish.bind(null, gui)
             };
           };
         })();
