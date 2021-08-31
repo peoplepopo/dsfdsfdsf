@@ -3823,11 +3823,7 @@ const sockets = (() => {
                * regardless of if we had an update cycle.
                */
               publish: () => {
-                if (out.length) {
-                  let o = out.splice(0, out.length);
-                  out = [];
-                  return o;
-                }
+                if (out.length) return out.splice(0);
               }
             };
           }
@@ -3948,8 +3944,8 @@ const sockets = (() => {
             };
             // This is the gui itself
             return {
-              update: () => update(gui),
-              publish: () => publish(gui)
+              update: update.bind(null,gui),
+              publish: publish.bind(null,gui)
             };
           };
         })();
