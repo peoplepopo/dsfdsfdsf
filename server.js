@@ -2360,7 +2360,7 @@ class Entity {
   camera(tur = false) {
     return {
       type:
-        0 +
+        //0 +
         tur * 0x01 +
         this.settings.drawHealth * 0x02 +
         (this.type === "tank") * 0x04,
