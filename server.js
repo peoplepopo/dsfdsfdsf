@@ -3422,7 +3422,7 @@ const sockets = (() => {
                 return 1;
               }
               // Pong
-              socket.talk("p", m[0]); // Just pong it right back
+              socket.talk("p", ping); // Just pong it right back
               socket.status.lastHeartbeat = util.time();
             }
             break;
@@ -3436,7 +3436,7 @@ const sockets = (() => {
               // Get data
               let time = m[0];
               // Verify data
-              if (typeof time !== "number") {
+              if (typeof time !== "number" || !Number.isFinite(time)) {
                 socket.kick("Bad downlink.");
                 return 1;
               }
@@ -3469,8 +3469,11 @@ const sockets = (() => {
               // Verify data
               if (
                 typeof targetX !== "number" ||
+                !Number.isFinite(targetX) ||
                 typeof targetY !== "number" ||
-                typeof commands !== "number"
+                !Number.isFinite(targetY) ||
+                typeof commands !== "number" ||
+                !Number.isSafeInteger(commands)
               ) {
                 socket.kick("Weird downlink.");
                 return 1;
@@ -3525,7 +3528,7 @@ const sockets = (() => {
                   break;
                 // Kick if it sent us shit.
                 default:
-                  socket.kick("Bad toggle.");
+                  //socket.kick("Bad toggle.");
                   return 1;
               }
               // Apply a good request.
@@ -3550,7 +3553,7 @@ const sockets = (() => {
               // Get data
               let number = m[0];
               // Verify the request
-              if (typeof number != "number" || number < 0) {
+              if (typeof number != "number"||!Number.isSafeInteger(number)|| number < 0) {
                 socket.kick("Bad upgrade request.");
                 return 1;
               }
