@@ -3704,37 +3704,28 @@ const sockets = (() => {
             return {
               // The update method
               update: newValue => {
-                let eh = false;
-                if (value == null) eh = true;
-                else {
-                  if (typeof newValue !== typeof value) eh = true;
-                  else
-                    switch (typeof newValue) {
-                      case "number":
-                      case "string":
-                        if (newValue !== value) eh = true;
-                        break;
-                      case "object":
-                        if (Array.isArray(newValue)) {
-                          if (newValue.length !== value.length) eh = true;
-                          else
-                            for (let i = 0, len = newValue.length; i < len; i++)
-                              if (newValue[i] !== value[i]) {
-                                eh = true;
-                                break;
-                              }
-                          break;
-                        }
-                      default:
-                        util.error(newValue);
-                        throw new Error("Unsupported type for a floppyvar!");
-                    }
+                eh: for (;;) {
+                  if (null == value) break eh;
+                  if (typeof value !== typeof newValue) break eh;
+                  switch (typeof newValue) {
+                    case "number":
+                    case "string":
+                      if (value !== newValue) break eh;
+                      return;
+                    case "object":
+                      if (Array.isArray(newValue)) {
+                        let i = value.length;
+                        if (i !== newValue.length) break eh;
+                        while (i--) if (value[i] !== newValue[i]) break eh;
+                        return;
+                      }
+                    default:
+                      util.error(newValue);
+                      throw new Error("Unsupported type for a floppyvar!");
+                  }
                 }
-                // Update if neeeded
-                if (eh) {
-                  flagged = true;
-                  value = newValue;
-                }
+                flagged = true;
+                value = newValue;
               },
               // The return method
               publish: () => {
