@@ -3754,11 +3754,7 @@ const sockets = (() => {
                 "shi"
               ];
             // Load everything (b/c I'm too lazy to do it manually)
-            statnames.forEach(a => {
-              vars.push(floppy());
-              vars.push(floppy());
-              vars.push(floppy());
-            });
+            statnames.forEach(() => vars.push(floppy(), floppy(), floppy()));
             return {
               update: () => {
                 let needsupdate = false,
@@ -3863,9 +3859,7 @@ const sockets = (() => {
             }
             if (o.label != null) {
               oo[0] += 0x0002;
-              oo.push(o.label);
-              oo.push(o.color || gui.master.teamColor);
-              oo.push(gui.bodyid);
+              oo.push(o.label, o.color || gui.master.teamColor, gui.bodyid);
             }
             if (o.score != null) {
               oo[0] += 0x0004;
@@ -3881,7 +3875,7 @@ const sockets = (() => {
             }
             if (o.statsdata != null) {
               oo[0] += 0x0020;
-              oo.push(...o.statsdata);
+              oo.push.apply(oo, o.statsdata);
             }
             if (o.skills != null) {
               oo[0] += 0x0040;
