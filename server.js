@@ -3776,11 +3776,13 @@ const sockets = (() => {
                 });
                 if (needsupdate) {
                   // Update everything
-                  statnames.forEach(a => {
-                    out.push(skills.title(a));
-                    out.push(skills.cap(a));
-                    out.push(skills.cap(a, true));
-                  });
+                  statnames.forEach(a =>
+                    out.push(
+                      skills.title(a),
+                      skills.cap(a),
+                      skills.cap(a, true)
+                    )
+                  );
                 }
               },
               /* The reason these are seperate is because if we can
@@ -3826,9 +3828,7 @@ const sockets = (() => {
             // Update the upgrades
             let upgrades = [];
             b.upgrades.forEach(e => {
-              if (b.skill.level >= e.level) {
-                upgrades.push(e.index);
-              }
+              if (b.skill.level >= e.level) upgrades.push(e.index);
             });
             gui.upgrades.update(upgrades);
             // Update the stats and skills
