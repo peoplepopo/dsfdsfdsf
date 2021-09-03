@@ -3436,7 +3436,7 @@ const sockets = (() => {
               // Get data
               let time = m[0];
               // Verify data
-              if (typeof time !== "number" || !Number.isFinite(time)) {
+              if (!Number.isFinite(time)) {
                 socket.kick("Bad downlink.");
                 return 1;
               }
@@ -3468,12 +3468,11 @@ const sockets = (() => {
                 commands = m[2];
               // Verify data
               if (
-                typeof targetX !== "number" ||
-                !Number.isFinite(targetX) ||
-                typeof targetY !== "number" ||
-                !Number.isFinite(targetY) ||
-                typeof commands !== "number" ||
-                !Number.isSafeInteger(commands)
+                !(
+                  Number.isFinite(targetX) &&
+                  Number.isFinite(targetY) &&
+                  Number.isSafeInteger(commands)
+                )
               ) {
                 socket.kick("Weird downlink.");
                 return 1;
@@ -3553,7 +3552,7 @@ const sockets = (() => {
               // Get data
               let number = m[0];
               // Verify the request
-              if (typeof number != "number"||!Number.isSafeInteger(number)|| number < 0) {
+              if (!Number.isSafeInteger(number) || number < 0) {
                 socket.kick("Bad upgrade request.");
                 return 1;
               }
@@ -3709,34 +3708,39 @@ const sockets = (() => {
                 if (value == null) {
                   eh = true;
                 } else {
-                  if (typeof newValue != typeof value) {
-                    eh = true;
-                  }
-                  // Decide what to do based on what type it is
-                  switch (typeof newValue) {
-                    case "number":
-                    case "string":
-                      {
-                        if (newValue !== value) {
-                          eh = true;
-                        }
-                      }
-                      break;
-                    case "object": {
-                      if (Array.isArray(newValue)) {
-                        if (newValue.length !== value.length) {
-                          eh = true;
-                        } else {
-                          for (let i = 0, len = newValue.length; i < len; i++) {
-                            if (newValue[i] !== value[i]) eh = true;
-                          }
+                  if (typeof newValue !== typeof value) eh = true;
+                  else {
+                    // Decide what to do based on what type it is
+                    ehsw: switch (typeof newValue) {
+                      case "number":
+                      case "string":
+                        {
+                          if (newValue !== value) eh = true;
                         }
                         break;
-                      }
-                    } // jshint ignore:line
-                    default:
-                      util.error(newValue);
-                      throw new Error("Unsupported type for a floppyvar!");
+                      case "object":
+                        if (Array.isArray(newValue)) {
+                          if (newValue.length !== value.length) {
+                            eh = true;
+                            break ehsw;
+                          } else {
+                            for (
+                              let i = 0, len = newValue.length;
+                              i < len;
+                              i++
+                            ) {
+                              if (newValue[i] !== value[i]) {
+                                eh = true;
+                                break ehsw;
+                              }
+                            }
+                          }
+                          break;
+                        }
+                      default:
+                        util.error(newValue);
+                        throw new Error("Unsupported type for a floppyvar!");
+                    }
                   }
                 }
                 // Update if neeeded
