@@ -3705,43 +3705,30 @@ const sockets = (() => {
               // The update method
               update: newValue => {
                 let eh = false;
-                if (value == null) {
-                  eh = true;
-                } else {
+                if (value == null) eh = true;
+                else {
                   if (typeof newValue !== typeof value) eh = true;
-                  else {
-                    // Decide what to do based on what type it is
-                    ehsw: switch (typeof newValue) {
+                  else
+                    switch (typeof newValue) {
                       case "number":
                       case "string":
-                        {
-                          if (newValue !== value) eh = true;
-                        }
+                        if (newValue !== value) eh = true;
                         break;
                       case "object":
                         if (Array.isArray(newValue)) {
-                          if (newValue.length !== value.length) {
-                            eh = true;
-                            break ehsw;
-                          } else {
-                            for (
-                              let i = 0, len = newValue.length;
-                              i < len;
-                              i++
-                            ) {
+                          if (newValue.length !== value.length) eh = true;
+                          else
+                            for (let i = 0, len = newValue.length; i < len; i++)
                               if (newValue[i] !== value[i]) {
                                 eh = true;
-                                break ehsw;
+                                break;
                               }
-                            }
-                          }
                           break;
                         }
                       default:
                         util.error(newValue);
                         throw new Error("Unsupported type for a floppyvar!");
                     }
-                  }
                 }
                 // Update if neeeded
                 if (eh) {
