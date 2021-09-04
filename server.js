@@ -2603,14 +2603,12 @@ class Entity {
   }
 
   takeSelfie() {
-    this.flattenedPhoto = null;
-    this.photo = this.settings.drawShape
-      ? this.camera()
-      : (this.photo = undefined);
+    delete this.flattenedPhoto;
+    delete this._photo;
   }
   
-  get photo() {
-    return 
+  getPhoto() {
+    if(this.settings.drawShape)return this._photo||(this._photo=this.camera());
   }
 
   physics() {
@@ -4215,7 +4213,7 @@ const sockets = (() => {
               // Get the socket status
               socket.status.receiving++;
               // Now prepare the data to emit
-              let setFov = camera.fov;
+              let setFov = camera.fov,photo;
               // If we are alive, update the camera
               if (player.body != null) {
                 // But I just died...
@@ -4227,12 +4225,12 @@ const sockets = (() => {
                   player.body = null;
                 }
                 // I live!
-                else if (player.body.photo) {
+                else if (photo=player.body.getPhoto()) {
                   // Update camera position and motion
-                  camera.x = player.body.photo.x;
-                  camera.y = player.body.photo.y;
-                  camera.vx = player.body.photo.vx;
-                  camera.vy = player.body.photo.vy;
+                  camera.x = photo.x;
+                  camera.y = photo.y;
+                  camera.vx = photo.vx;
+                  camera.vy = photo.vy;
                   // Get what we should be able to see
                   setFov = player.body.fov;
                   // Get our body id
@@ -4265,13 +4263,14 @@ const sockets = (() => {
               }
               // Look at our list of nearby entities and get their updates
               nearby.filterMap(function mapthevisiblerealm(e) {
-                if (e.photo) {
+                var photo=e.getPhoto();
+                if (photo) {
                   if (
                     Math.abs(e.x - x) < fov / 2 + 1.5 * e.size &&
                     Math.abs(e.y - y) < (fov / 2) * (9 / 16) + 1.5 * e.size
                   ) {
                     // Grab the photo
-                    if (!e.flattenedPhoto) e.flattenedPhoto = flatten(e.photo);
+                    if (!e.flattenedPhoto) e.flattenedPhoto = flatten(photo);
                     return perspective(e, player, e.flattenedPhoto);
                   }
                 }
