@@ -333,10 +333,6 @@ const io = {
     }
   },
   mapTargetToGoal: class extends IO {
-    constructor(b) {
-      super(b);
-    }
-
     think(input) {
       if (input.main || input.alt) {
         return {
@@ -409,10 +405,6 @@ const io = {
     }
   },
   canRepel: class extends IO {
-    constructor(b) {
-      super(b);
-    }
-
     think(input) {
       if (input.alt && input.target) {
         return {
@@ -426,10 +418,6 @@ const io = {
     }
   },
   alwaysFire: class extends IO {
-    constructor(body) {
-      super(body);
-    }
-
     think() {
       return {
         fire: true
@@ -437,10 +425,6 @@ const io = {
     }
   },
   targetSelf: class extends IO {
-    constructor(body) {
-      super(body);
-    }
-
     think() {
       return {
         main: true,
@@ -449,10 +433,6 @@ const io = {
     }
   },
   mapAltToFire: class extends IO {
-    constructor(body) {
-      super(body);
-    }
-
     think(input) {
       if (input.alt) {
         return {
@@ -462,10 +442,6 @@ const io = {
     }
   },
   onlyAcceptInArc: class extends IO {
-    constructor(body) {
-      super(body);
-    }
-
     think(input) {
       if (input.target && this.body.firingArc != null) {
         if (
@@ -655,10 +631,6 @@ const io = {
     }
   },
   avoid: class extends IO {
-    constructor(body) {
-      super(body);
-    }
-
     think(input) {
       let masterId = this.body.master.id;
       let range = this.body.size * this.body.size * 100;
@@ -881,10 +853,6 @@ const io = {
     }
   },
   dontTurn: class extends IO {
-    constructor(b) {
-      super(b);
-    }
-
     think(input) {
       return {
         target: {
