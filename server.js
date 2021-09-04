@@ -291,10 +291,7 @@ const io = {
     // THE PLAYER MUST HAVE A VALID COMMAND AND TARGET OBJECT
 
     think() {
-      let targ = {
-        x: this.player.target.x,
-        y: this.player.target.y
-      };
+      let targ;
       if (this.player.command.autospin) {
         let kk =
           Math.atan2(this.body.control.target.y, this.body.control.target.x) +
@@ -303,7 +300,11 @@ const io = {
           x: 100 * Math.cos(kk),
           y: 100 * Math.sin(kk)
         };
-      }
+      } else
+        targ = {
+          x: this.player.target.x,
+          y: this.player.target.y
+        };
       if (this.body.invuln) {
         if (
           this.player.command.right ||
@@ -2606,9 +2607,10 @@ class Entity {
     delete this.flattenedPhoto;
     delete this._photo;
   }
-  
+
   getPhoto() {
-    if(this.settings.drawShape)return this._photo||(this._photo=this.camera());
+    if (this.settings.drawShape)
+      return this._photo || (this._photo = this.camera());
   }
 
   physics() {
@@ -4213,7 +4215,8 @@ const sockets = (() => {
               // Get the socket status
               socket.status.receiving++;
               // Now prepare the data to emit
-              let setFov = camera.fov,photo;
+              let setFov = camera.fov,
+                photo;
               // If we are alive, update the camera
               if (player.body != null) {
                 // But I just died...
@@ -4225,7 +4228,7 @@ const sockets = (() => {
                   player.body = null;
                 }
                 // I live!
-                else if (photo=player.body.getPhoto()) {
+                else if ((photo = player.body.getPhoto())) {
                   // Update camera position and motion
                   camera.x = photo.x;
                   camera.y = photo.y;
@@ -4263,7 +4266,7 @@ const sockets = (() => {
               }
               // Look at our list of nearby entities and get their updates
               nearby.filterMap(function mapthevisiblerealm(e) {
-                var photo=e.getPhoto();
+                var photo = e.getPhoto();
                 if (photo) {
                   if (
                     Math.abs(e.x - x) < fov / 2 + 1.5 * e.size &&
