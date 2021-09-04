@@ -2608,6 +2608,10 @@ class Entity {
       ? this.camera()
       : (this.photo = undefined);
   }
+  
+  get photo() {
+    return 
+  }
 
   physics() {
     if (this.accel.x == null || this.velocity.x == null) {
