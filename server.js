@@ -3036,7 +3036,7 @@ const mockupJsonData = (() => {
             massCenter.x /= endpoints.length;
             massCenter.y /= endpoints.length;*/
     // 3) Choose three different points (hopefully ones very far from each other)
-    let chooseFurthestAndRemove = function(furthestFrom) {
+    let chooseFurthestAndRemove = furthestFrom => {
       let index = 0;
       if (furthestFrom != -1) {
         let fd = -Infinity;
@@ -3058,7 +3058,7 @@ const mockupJsonData = (() => {
     let point1 = chooseFurthestAndRemove(massCenter); // Choose the point furthest from the mass center
     let point2 = chooseFurthestAndRemove(point1); // And the point furthest from that
     // And the point which maximizes the area of our triangle (a loose look at this one)
-    let chooseBiggestTriangleAndRemove = function(point1, point2) {
+    let chooseBiggestTriangleAndRemove = (point1, point2) => {
       let index = 0,
         b = -Infinity;
       let a;
