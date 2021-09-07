@@ -4949,8 +4949,9 @@ var gameloop = (() => {
             goahead = true;
           }
         } else {
-          let t1 = (-B - Math.sqrt(det)) / (2 * A),
-            t2 = (-B + Math.sqrt(det)) / (2 * A);
+          const sqdet= Math.sqrt(det);
+          let t1 = (-B - sqdet) / (2 * A),
+            t2 = (sqdet-B) / (2 * A);
           if (t1 < tmin || t1 > tmax) {
             // 1 is out of range
             if (t2 < tmin || t2 > tmax) {
