@@ -515,7 +515,7 @@ const io = {
           // Only look at those within range and arc (more expensive, so we only do it on the few)
           let yaboi = false;
           if (
-            Math.pow(this.body.x - e.x, 2) + Math.pow(this.body.y - e.y, 2) <
+            ((this.body.x - e.x)** 2) + ((this.body.y - e.y)** 2) <
             sqrRange
           ) {
             if (this.body.firingArc == null || this.body.aiSettings.view360) {
@@ -1031,7 +1031,7 @@ class Skill {
         );
       }
     }
-    this.rld = Math.pow(0.5, attrib[skcnv.rld]);
+    this.rld = 0.5** attrib[skcnv.rld];
     this.pen = apply(2.5, attrib[skcnv.pen]);
     this.str = apply(2, attrib[skcnv.str]);
     this.dam = apply(3, attrib[skcnv.dam]);
@@ -1106,7 +1106,7 @@ class Skill {
   }
 
   get levelScore() {
-    return Math.ceil(1.8 * Math.pow(this.level + 1, 1.8) - 2 * this.level + 1);
+    return Math.ceil(1.8 * ((this.level + 1)** 1.8) - 2 * this.level + 1);
   }
 
   get progress() {
@@ -3044,8 +3044,8 @@ const mockupJsonData = (() => {
         for (let i = 0; i < endpoints.length; i++) {
           let thisPoint = endpoints[i];
           d =
-            Math.pow(thisPoint.x - furthestFrom.x, 2) +
-            Math.pow(thisPoint.y - furthestFrom.y, 2) +
+            ((thisPoint.x - furthestFrom.x)** 2) +
+            ((thisPoint.y - furthestFrom.y)** 2) +
             1;
           if (d > fd) {
             fd = d;
@@ -3065,10 +3065,10 @@ const mockupJsonData = (() => {
       for (let i = 0; i < endpoints.length; i++) {
         let thisPoint = endpoints[i];
         a =
-          Math.pow(thisPoint.x - point1.x, 2) +
-          Math.pow(thisPoint.y - point1.y, 2) +
-          Math.pow(thisPoint.x - point2.x, 2) +
-          Math.pow(thisPoint.y - point2.y, 2);
+          ((thisPoint.x - point1.x)** 2) +
+          ((thisPoint.y - point1.y)** 2) +
+          ((thisPoint.x - point2.x)** 2) +
+          ((thisPoint.y - point2.y)** 2);
         /* We need neither to calculate the last part of the triangle
          * (because it's always the same) nor divide by 2 to get the
          * actual area (because we're just comparing it)
@@ -3099,9 +3099,9 @@ const mockupJsonData = (() => {
       let y =
         // Numerator
         (xy1 * (x3 - x2) + xy2 * (x1 - x3) + xy3 * (x2 - x1)) / (2 * denom);
-      let r = Math.sqrt(Math.pow(x - x1, 2) + Math.pow(y - y1, 2));
-      let r2 = Math.sqrt(Math.pow(x - x2, 2) + Math.pow(y - y2, 2));
-      let r3 = Math.sqrt(Math.pow(x - x3, 2) + Math.pow(y - y3, 2));
+      let r = Math.sqrt(((x - x1)** 2) + ((y - y1)** 2));
+      let r2 = Math.sqrt(((x - x2)** 2) + ((y - y2)** 2));
+      let r3 = Math.sqrt(((x - x3)** 2) + ((y - y3)** 2));
       /*if (r != r2 || r != r3) {
         //util.log('somethings fucky');
       }*/
@@ -3142,13 +3142,13 @@ const mockupJsonData = (() => {
     while (checkingFunction()) {
       // 7) Repeat until we enclose everything
       centerOfCircle = {
-        x: (point1.x + point2.x) / 2,
-        y: (point1.y + point2.y) / 2
+        x: (point1.x + point2.x) * 0.5,
+        y: (point1.y + point2.y) * 0.5
       };
       radiusOfCircle =
         Math.sqrt(
-          Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2)
-        ) / 2;
+          ((point1.x - point2.x)** 2) + ((point1.y - point2.y)** 2)
+        ) *0.5;
     }
     // 8) Since this algorithm isn't perfect but we know our shapes are bilaterally symmetrical, we bind this circle along the x-axis to make it behave better
     return {
@@ -5045,9 +5045,9 @@ var gameloop = (() => {
             let speedFactor = {
               // Avoid NaNs and infinities
               _me: my.maxSpeed
-                ? Math.pow(motion._me.length / my.maxSpeed, 0.25)
+                ? ((motion._me.length / my.maxSpeed)** 0.25)
                 : 1,
-              _n: n.maxSpeed ? Math.pow(motion._n.length / n.maxSpeed, 0.25) : 1
+              _n: n.maxSpeed ? ((motion._n.length / n.maxSpeed)** 0.25) : 1
             };
 
             /********** DO DAMAGE *********/
@@ -5098,18 +5098,18 @@ var gameloop = (() => {
               if (my.settings.ratioEffects) {
                 damage._me *= Math.min(
                   1,
-                  Math.pow(
-                    Math.max(my.health.ratio, my.shield.ratio),
-                    1 / my.penetration
+                  (
+                    Math.max(my.health.ratio, my.shield.ratio)**
+                    (1 / my.penetration)
                   )
                 );
               }
               if (n.settings.ratioEffects) {
                 damage._n *= Math.min(
                   1,
-                  Math.pow(
-                    Math.max(n.health.ratio, n.shield.ratio),
-                    1 / n.penetration
+                  (
+                    Math.max(n.health.ratio, n.shield.ratio)**
+                    (1 / n.penetration)
                   )
                 );
               }
