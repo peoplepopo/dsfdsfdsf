@@ -3895,7 +3895,7 @@ const sockets = (() => {
         }
         // The returned player definition function
         return (socket, name) => {
-          let player = {},
+          let player = {name},
             loc = {};
           // Find the desired team (if any) and from that, where you ought to spawn
           player.team = socket.rememberedTeam;
