@@ -3100,9 +3100,9 @@ const mockupJsonData = (() => {
         // Numerator
         (xy1 * (x3 - x2) + xy2 * (x1 - x3) + xy3 * (x2 - x1)) / (2 * denom);
       let r = Math.sqrt(((x - x1)** 2) + ((y - y1)** 2));
-      let r2 = Math.sqrt(((x - x2)** 2) + ((y - y2)** 2));
+      /*let r2 = Math.sqrt(((x - x2)** 2) + ((y - y2)** 2));
       let r3 = Math.sqrt(((x - x3)** 2) + ((y - y3)** 2));
-      /*if (r != r2 || r != r3) {
+      if (r != r2 || r != r3) {
         //util.log('somethings fucky');
       }*/
       return { x: x, y: y, radius: r };
