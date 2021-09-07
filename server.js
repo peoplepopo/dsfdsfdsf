@@ -1139,8 +1139,8 @@ class Skill {
     let value = 0;
     let denom = Math.max(c.MAX_SKILL, this.caps[i + 5 * j]);
     value +=
-      (1 - Math.pow(this.raw[a] / denom - 1, 2)) * this.raw[a] * c.SKILL_LEAK;
-    value -= Math.pow(this.raw[b] / denom, 2) * this.raw[b] * c.SKILL_LEAK;
+      (1 - ((this.raw[a] / denom - 1)**2)) * this.raw[a] * c.SKILL_LEAK;
+    value -= ((this.raw[b] / denom)** 2) * this.raw[b] * c.SKILL_LEAK;
 
     return value;
   }
@@ -1599,7 +1599,7 @@ class Gun {
         break;
       case "trap":
       case "block":
-        out.PUSHABILITY = 1 / Math.pow(sk.pen, 0.5);
+        out.PUSHABILITY = 1 / (sk.pen**0.5);
         out.RANGE = shoot.range;
         break;
       case "necro":
@@ -1607,7 +1607,7 @@ class Gun {
         out.PUSHABILITY = 1;
         out.PENETRATION = Math.max(1, shoot.pen * (0.5 * (sk.pen - 1) + 1));
         out.HEALTH =
-          (shoot.health * sk.str + sizeFactor) / Math.pow(sk.pen, 0.8);
+          (shoot.health * sk.str + sizeFactor) / (sk.pen**0.8);
         out.DAMAGE =
           shoot.damage * sk.dam * Math.sqrt(sizeFactor) * shoot.pen * sk.pen;
         out.RANGE = shoot.range * Math.sqrt(sizeFactor);
@@ -1751,7 +1751,7 @@ class HealthType {
           this.amount +=
             cons *
             ((this.regen *
-              Math.exp(-50 * Math.pow(Math.sqrt(0.5 * r) - 0.4, 2))) /
+              Math.exp(-50 * ((Math.sqrt(0.5 * r) - 0.4)** 2))) /
               3 +
               (r * this.max) / 10 / 15 +
               boost);
@@ -1772,7 +1772,7 @@ class HealthType {
 
   get ratio() {
     return this.max
-      ? util.clamp(1 - Math.pow(this.amount / this.max - 1, 4), 0, 1)
+      ? util.clamp(1 - ((this.amount / this.max - 1)** 4), 0, 1)
       : 0;
   }
 }
@@ -2226,7 +2226,7 @@ class Entity {
   }
 
   refreshBodyAttributes() {
-    let speedReduce = Math.pow(this.size / (this.coreSize || this.SIZE), 1);
+    let speedReduce = this.size / (this.coreSize || this.SIZE);
 
     this.acceleration = (c.runSpeed * this.ACCELERATION) / speedReduce;
     if (this.settings.reloadToAcceleration) this.acceleration *= this.skill.acl;
@@ -4932,12 +4932,12 @@ var gameloop = (() => {
         let goahead = false,
           tmin = 1 - tock,
           tmax = 1,
-          A = Math.pow(delt.x, 2) + Math.pow(delt.y, 2),
+          A = delt.x*delt.x + delt.y*delt.y,
           B = 2 * delt.x * diff.x + 2 * delt.y * diff.y,
           C =
-            Math.pow(diff.x, 2) +
-            Math.pow(diff.y, 2) -
-            Math.pow(combinedRadius, 2),
+            diff.x*diff.x +
+            diff.y*diff.y -
+            combinedRadius*combinedRadius,
           det = B * B - 4 * A * C,
           t;
 
@@ -5029,11 +5029,11 @@ var gameloop = (() => {
             },
             pen = {
               _me: {
-                sqr: Math.pow(my.penetration, 2),
+                sqr: my.penetration*my.penetration,
                 sqrt: Math.sqrt(my.penetration)
               },
               _n: {
-                sqr: Math.pow(n.penetration, 2),
+                sqr: n.penetration*n.penetration,
                 sqrt: Math.sqrt(n.penetration)
               }
             },
@@ -5186,7 +5186,7 @@ var gameloop = (() => {
                 (2 * Math.sqrt(savedHealthRatio._me * savedHealthRatio._n)) /
                 roomSpeed,
               elasticImpulse =
-                (Math.pow(combinedDepth.down, 2) *
+                (combinedDepth.down*combinedDepth.down *
                   elasticity *
                   component *
                   my.mass *
