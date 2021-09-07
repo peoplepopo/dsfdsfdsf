@@ -2332,7 +2332,9 @@ class Entity {
         //0 +
         tur * 0x01 +
         this.settings.drawHealth * 0x02 +
-        (this.type === "tank") * 0x04,
+        (this.type === "tank") * 0x04 +
+        this.invuln * 0x08
+      ,
       id: this.id,
       index: this.index,
       x: this.x,
