@@ -5283,42 +5283,6 @@ var gameloop = (() => {
     my.activation.update();
     my.updateAABB(my.activation.check());
   }
-  const portalSuck=(()=>{
-  var {width,height,xgrid,ygrid,setup}=room;
-  var yeet=Math.min(width/xgrid,height/ygrid)/2;
-  var tpd=yeet/4;
-  tpd*=tpd;
-  var {sqrt,random,cos,sin}=Math;
-  var ports=(()=>{
-    var l=[],i,j;
-    for(j=0;j<ygrid;j++)for(i=0;i<xgrid;i++)if("port"===setup[j][i])l.push(width*(0.5+i)/xgrid,height*(0.5+j)/ygrid);
-    return l;
-  })();
-  var portsCount=ports.length>>1;
-  return e=>{
-    var {x,y}=e;
-    if(x<0||y<0||x>=width||y>=height)return;
-    var i=((xgrid*x)/width)>>0,j=((ygrid*y)/height)>>0;
-    if("port"!==setup[j][i])return;
-    i=width*(0.5+i)/xgrid-x;
-    j=height*(0.5+j)/ygrid-y;
-    var m=i*i+j*j;
-    var {accel}=e;
-    if(m<tpd){
-      var {velocity}=e;
-      accel.x=accel.y=velocity.x=velocity.x=0;
-      e.x=ports[0];
-      e.y=ports[1];
-      var dir=6.283185307179586476925286766559*random();
-      e.x+=yeet*cos(dir);
-      e.y+=yeet*sin(dir);
-      return;
-    }
-    m=2/sqrt(m);
-    accel.x+=m*i;
-    accel.y+=m*j;
-  };
-})();
   function entitiesliveloop(my) {
     // Consider death.
     if (my.contemplationOfMortality()) my.destroy();
@@ -5338,7 +5302,6 @@ var gameloop = (() => {
         // Apply friction.
         my.friction();
         my.confinementToTheseEarthlyShackles();
-        portalSuck(my);
         logs.selfie.set();
         my.takeSelfie();
         logs.selfie.mark();
