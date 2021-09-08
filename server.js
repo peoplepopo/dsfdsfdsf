@@ -5298,6 +5298,14 @@ var gameloop = (() => {
     my.activation.update();
     my.updateAABB(my.activation.check());
   }
+  const portalSuck=({x,y,accel})=>{
+  const {width,height,xgrid,ygrid}=room;
+  if(x<0||y<0||x>=width||y>=height)return;
+  const i=((xgrid*x)/width)>>0,j=((ygrid*y)/height)>>0;
+  if("port"!==room.setup[j][i])return;
+  accel.x+=0.01*(x-width*(0.5+i)/xgrid);
+  accel.y+=0.01*(y-height*(0.5+j)/ygrid);
+  };
   function entitiesliveloop(my) {
     // Consider death.
     if (my.contemplationOfMortality()) my.destroy();
@@ -5317,6 +5325,7 @@ var gameloop = (() => {
         // Apply friction.
         my.friction();
         my.confinementToTheseEarthlyShackles();
+        portalSuck(my);
         logs.selfie.set();
         my.takeSelfie();
         logs.selfie.mark();

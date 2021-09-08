@@ -19,7 +19,7 @@
   "ROOM_SETUP": [
     [ "roid", "norm", "norm", "roid" ],
     [ "norm", "nest", "roid", "norm" ],
-    [ "norm", "roid", "nest", "norm" ],
+    [ "norm", "roid", "nest", "port" ],
     [ "roid", "norm", "norm", "roid" ]
   ],
   "X_GRID": 4,
