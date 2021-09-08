@@ -46,8 +46,8 @@ room.findType = type => {
   var output = [],
     j,
     i;
-  for (j = 0; j < room.setup.length; j++)
-    for (i = 0; i < room.setup[j].length; i++)
+  for (j = 0; j < room.ygrid; j++)
+    for (i = 0; i < room.xgrid; i++)
       if (room.setup[j][i] === type) {
         output.push({
           x: ((i + 0.5) * room.width) / room.xgrid,
@@ -66,12 +66,10 @@ room.findType("roid");
 room.findType("rock");
 room.nestFoodAmount =
   (1.5 * Math.sqrt(room.nest.length)) / room.xgrid / room.ygrid;
-room.random = () => {
-  return {
+room.random = () => ({
     x: ran.irandom(room.width),
     y: ran.irandom(room.height)
-  };
-};
+});
 room.randomType = type => {
   let selection = room[type][ran.irandom(room[type].length - 1)];
   return {
