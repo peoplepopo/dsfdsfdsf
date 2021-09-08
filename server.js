@@ -5285,8 +5285,9 @@ var gameloop = (() => {
   }
   const portalSuck=(()=>{
   var {width,height,xgrid,ygrid,setup}=room;
-  var yeet=Math.min(width/xgrid,height/ygrid)/8;
-  var tpd=yeet*yeet;
+  var yeet=Math.min(width/xgrid,height/ygrid)/2;
+  var tpd=yeet/4;
+  tpd*=tpd;
   var {sqrt,random,cos,sin}=Math;
   var ports=(()=>{
     var l=[],i,j;
@@ -5304,11 +5305,13 @@ var gameloop = (() => {
     var m=i*i+j*j;
     var {accel}=e;
     if(m<tpd){
+      var {velocity}=e;
+      accel.x=accel.y=velocity.x=velocity.x=0;
       e.x=ports[0];
       e.y=ports[1];
       var dir=6.283185307179586476925286766559*random();
-      accel.x=yeet*cos(dir);
-      accel.y=yeet*sin(dir);
+      e.x+=yeet*cos(dir);
+      e.y+=yeet*sin(dir);
       return;
     }
     m=2/sqrt(m);
