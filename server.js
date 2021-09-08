@@ -5298,14 +5298,20 @@ var gameloop = (() => {
     my.activation.update();
     my.updateAABB(my.activation.check());
   }
-  const portalSuck=({x,y,accel})=>{
-  const {width,height,xgrid,ygrid}=room;
-  if(x<0||y<0||x>=width||y>=height)return;
-  const i=((xgrid*x)/width)>>0,j=((ygrid*y)/height)>>0;
-  if("port"!==room.setup[j][i])return;
-  accel.x+=0.01*(x-width*(0.5+i)/xgrid);
-  accel.y+=0.01*(y-height*(0.5+j)/ygrid);
+  const portalSuck=(()=>{
+  var {width,height,xgrid,ygrid}=room;
+  var {sqrt}=Math;
+  return ({x,y,accel})=>{
+    if(x<0||y<0||x>=width||y>=height)return;
+    var i=((xgrid*x)/width)>>0,j=((ygrid*y)/height)>>0;
+    if("port"!==room.setup[j][i])return;
+    i=width*(0.5+i)/xgrid-x;
+    j=height*(0.5+j)/ygrid-y;
+    var m=1/sqrt(i*i+j*j);
+    accel.x+=m*i;
+    accel.y+=m*j;
   };
+})();
   function entitiesliveloop(my) {
     // Consider death.
     if (my.contemplationOfMortality()) my.destroy();
