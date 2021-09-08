@@ -67,8 +67,8 @@ room.findType("rock");
 room.nestFoodAmount =
   (1.5 * Math.sqrt(room.nest.length)) / room.xgrid / room.ygrid;
 room.random = () => ({
-    x: ran.irandom(room.width),
-    y: ran.irandom(room.height)
+  x: ran.irandom(room.width),
+  y: ran.irandom(room.height)
 });
 room.randomType = type => {
   let selection = room[type][ran.irandom(room[type].length - 1)];
@@ -512,10 +512,7 @@ const io = {
         .mapInPlace(e => {
           // Only look at those within range and arc (more expensive, so we only do it on the few)
           let yaboi = false;
-          if (
-            ((this.body.x - e.x)** 2) + ((this.body.y - e.y)** 2) <
-            sqrRange
-          ) {
+          if ((this.body.x - e.x) ** 2 + (this.body.y - e.y) ** 2 < sqrRange) {
             if (this.body.firingArc == null || this.body.aiSettings.view360) {
               yaboi = true;
             } else if (
@@ -1029,7 +1026,7 @@ class Skill {
         );
       }
     }
-    this.rld = 0.5** attrib[skcnv.rld];
+    this.rld = 0.5 ** attrib[skcnv.rld];
     this.pen = apply(2.5, attrib[skcnv.pen]);
     this.str = apply(2, attrib[skcnv.str]);
     this.dam = apply(3, attrib[skcnv.dam]);
@@ -1104,7 +1101,7 @@ class Skill {
   }
 
   get levelScore() {
-    return Math.ceil(1.8 * ((this.level + 1)** 1.8) - 2 * this.level + 1);
+    return Math.ceil(1.8 * (this.level + 1) ** 1.8 - 2 * this.level + 1);
   }
 
   get progress() {
@@ -1136,9 +1133,8 @@ class Skill {
       b = ((i + (j === 1 ? 1 : 4)) % 5) + 5 * j;
     let value = 0;
     let denom = Math.max(c.MAX_SKILL, this.caps[i + 5 * j]);
-    value +=
-      (1 - ((this.raw[a] / denom - 1)**2)) * this.raw[a] * c.SKILL_LEAK;
-    value -= ((this.raw[b] / denom)** 2) * this.raw[b] * c.SKILL_LEAK;
+    value += (1 - (this.raw[a] / denom - 1) ** 2) * this.raw[a] * c.SKILL_LEAK;
+    value -= (this.raw[b] / denom) ** 2 * this.raw[b] * c.SKILL_LEAK;
 
     return value;
   }
@@ -1597,15 +1593,14 @@ class Gun {
         break;
       case "trap":
       case "block":
-        out.PUSHABILITY = 1 / (sk.pen**0.5);
+        out.PUSHABILITY = 1 / sk.pen ** 0.5;
         out.RANGE = shoot.range;
         break;
       case "necro":
       case "drone":
         out.PUSHABILITY = 1;
         out.PENETRATION = Math.max(1, shoot.pen * (0.5 * (sk.pen - 1) + 1));
-        out.HEALTH =
-          (shoot.health * sk.str + sizeFactor) / (sk.pen**0.8);
+        out.HEALTH = (shoot.health * sk.str + sizeFactor) / sk.pen ** 0.8;
         out.DAMAGE =
           shoot.damage * sk.dam * Math.sqrt(sizeFactor) * shoot.pen * sk.pen;
         out.RANGE = shoot.range * Math.sqrt(sizeFactor);
@@ -1748,8 +1743,7 @@ class HealthType {
         } else {
           this.amount +=
             cons *
-            ((this.regen *
-              Math.exp(-50 * ((Math.sqrt(0.5 * r) - 0.4)** 2))) /
+            ((this.regen * Math.exp(-50 * (Math.sqrt(0.5 * r) - 0.4) ** 2)) /
               3 +
               (r * this.max) / 10 / 15 +
               boost);
@@ -1770,7 +1764,7 @@ class HealthType {
 
   get ratio() {
     return this.max
-      ? util.clamp(1 - ((this.amount / this.max - 1)** 4), 0, 1)
+      ? util.clamp(1 - (this.amount / this.max - 1) ** 4, 0, 1)
       : 0;
   }
 }
@@ -2330,8 +2324,7 @@ class Entity {
         tur * 0x01 +
         this.settings.drawHealth * 0x02 +
         (this.type === "tank") * 0x04 +
-        this.invuln * 0x08
-      ,
+        this.invuln * 0x08,
       id: this.id,
       index: this.index,
       x: this.x,
@@ -3043,8 +3036,8 @@ const mockupJsonData = (() => {
         for (let i = 0; i < endpoints.length; i++) {
           let thisPoint = endpoints[i];
           d =
-            ((thisPoint.x - furthestFrom.x)** 2) +
-            ((thisPoint.y - furthestFrom.y)** 2) +
+            (thisPoint.x - furthestFrom.x) ** 2 +
+            (thisPoint.y - furthestFrom.y) ** 2 +
             1;
           if (d > fd) {
             fd = d;
@@ -3064,10 +3057,10 @@ const mockupJsonData = (() => {
       for (let i = 0; i < endpoints.length; i++) {
         let thisPoint = endpoints[i];
         a =
-          ((thisPoint.x - point1.x)** 2) +
-          ((thisPoint.y - point1.y)** 2) +
-          ((thisPoint.x - point2.x)** 2) +
-          ((thisPoint.y - point2.y)** 2);
+          (thisPoint.x - point1.x) ** 2 +
+          (thisPoint.y - point1.y) ** 2 +
+          (thisPoint.x - point2.x) ** 2 +
+          (thisPoint.y - point2.y) ** 2;
         /* We need neither to calculate the last part of the triangle
          * (because it's always the same) nor divide by 2 to get the
          * actual area (because we're just comparing it)
@@ -3098,7 +3091,7 @@ const mockupJsonData = (() => {
       let y =
         // Numerator
         (xy1 * (x3 - x2) + xy2 * (x1 - x3) + xy3 * (x2 - x1)) / (2 * denom);
-      let r = Math.sqrt(((x - x1)** 2) + ((y - y1)** 2));
+      let r = Math.sqrt((x - x1) ** 2 + (y - y1) ** 2);
       /*let r2 = Math.sqrt(((x - x2)** 2) + ((y - y2)** 2));
       let r3 = Math.sqrt(((x - x3)** 2) + ((y - y3)** 2));
       if (r != r2 || r != r3) {
@@ -3145,9 +3138,8 @@ const mockupJsonData = (() => {
         y: (point1.y + point2.y) * 0.5
       };
       radiusOfCircle =
-        Math.sqrt(
-          ((point1.x - point2.x)** 2) + ((point1.y - point2.y)** 2)
-        ) *0.5;
+        Math.sqrt((point1.x - point2.x) ** 2 + (point1.y - point2.y) ** 2) *
+        0.5;
     }
     // 8) Since this algorithm isn't perfect but we know our shapes are bilaterally symmetrical, we bind this circle along the x-axis to make it behave better
     return {
@@ -3893,7 +3885,7 @@ const sockets = (() => {
         }
         // The returned player definition function
         return (socket, name) => {
-          let player = {name},
+          let player = { name },
             loc = {};
           // Find the desired team (if any) and from that, where you ought to spawn
           player.team = socket.rememberedTeam;
@@ -4931,12 +4923,10 @@ var gameloop = (() => {
         let goahead = false,
           tmin = 1 - tock,
           tmax = 1,
-          A = delt.x*delt.x + delt.y*delt.y,
+          A = delt.x * delt.x + delt.y * delt.y,
           B = 2 * delt.x * diff.x + 2 * delt.y * diff.y,
           C =
-            diff.x*diff.x +
-            diff.y*diff.y -
-            combinedRadius*combinedRadius,
+            diff.x * diff.x + diff.y * diff.y - combinedRadius * combinedRadius,
           det = B * B - 4 * A * C,
           t;
 
@@ -4948,9 +4938,9 @@ var gameloop = (() => {
             goahead = true;
           }
         } else {
-          const sqdet= Math.sqrt(det);
+          const sqdet = Math.sqrt(det);
           let t1 = (-B - sqdet) / (2 * A),
-            t2 = (sqdet-B) / (2 * A);
+            t2 = (sqdet - B) / (2 * A);
           if (t1 < tmin || t1 > tmax) {
             // 1 is out of range
             if (t2 < tmin || t2 > tmax) {
@@ -5029,11 +5019,11 @@ var gameloop = (() => {
             },
             pen = {
               _me: {
-                sqr: my.penetration*my.penetration,
+                sqr: my.penetration * my.penetration,
                 sqrt: Math.sqrt(my.penetration)
               },
               _n: {
-                sqr: n.penetration*n.penetration,
+                sqr: n.penetration * n.penetration,
                 sqrt: Math.sqrt(n.penetration)
               }
             },
@@ -5044,10 +5034,8 @@ var gameloop = (() => {
           if (doDamage) {
             let speedFactor = {
               // Avoid NaNs and infinities
-              _me: my.maxSpeed
-                ? ((motion._me.length / my.maxSpeed)** 0.25)
-                : 1,
-              _n: n.maxSpeed ? ((motion._n.length / n.maxSpeed)** 0.25) : 1
+              _me: my.maxSpeed ? (motion._me.length / my.maxSpeed) ** 0.25 : 1,
+              _n: n.maxSpeed ? (motion._n.length / n.maxSpeed) ** 0.25 : 1
             };
 
             /********** DO DAMAGE *********/
@@ -5098,19 +5086,15 @@ var gameloop = (() => {
               if (my.settings.ratioEffects) {
                 damage._me *= Math.min(
                   1,
-                  (
-                    Math.max(my.health.ratio, my.shield.ratio)**
+                  Math.max(my.health.ratio, my.shield.ratio) **
                     (1 / my.penetration)
-                  )
                 );
               }
               if (n.settings.ratioEffects) {
                 damage._n *= Math.min(
                   1,
-                  (
-                    Math.max(n.health.ratio, n.shield.ratio)**
+                  Math.max(n.health.ratio, n.shield.ratio) **
                     (1 / n.penetration)
-                  )
                 );
               }
               if (my.settings.damageEffects) {
@@ -5186,7 +5170,8 @@ var gameloop = (() => {
                 (2 * Math.sqrt(savedHealthRatio._me * savedHealthRatio._n)) /
                 roomSpeed,
               elasticImpulse =
-                (combinedDepth.down*combinedDepth.down *
+                (combinedDepth.down *
+                  combinedDepth.down *
                   elasticity *
                   component *
                   my.mass *
@@ -5298,20 +5283,23 @@ var gameloop = (() => {
     my.activation.update();
     my.updateAABB(my.activation.check());
   }
-  const portalSuck=(()=>{
-  var {width,height,xgrid,ygrid}=room;
-  var {sqrt}=Math;
-  return ({x,y,accel})=>{
-    if(x<0||y<0||x>=width||y>=height)return;
-    var i=((xgrid*x)/width)>>0,j=((ygrid*y)/height)>>0;
-    if("port"!==room.setup[j][i])return;
-    i=width*(0.5+i)/xgrid-x;
-    j=height*(0.5+j)/ygrid-y;
-    var m=1/sqrt(i*i+j*j);
-    accel.x+=m*i;
-    accel.y+=m*j;
-  };
-})();
+  const portalSuck = (() => {
+    var { width, height, xgrid, ygrid } = room;
+    var { sqrt } = Math;
+    return ({ x, y, accel }) => {
+      if (x < 0 || y < 0 || x >= width || y >= height) return;
+      var i = ((xgrid * x) / width) >> 0,
+        j = ((ygrid * y) / height) >> 0;
+      if ("port" !== room.setup[j][i]) return;
+      i = (width * (0.5 + i)) / xgrid - x;
+      j = (height * (0.5 + j)) / ygrid - y;
+      var m = i * i + j * j;
+      if (!m) return;
+      m = 1 / sqrt(m);
+      accel.x += m * i;
+      accel.y += m * j;
+    };
+  })();
   function entitiesliveloop(my) {
     // Consider death.
     if (my.contemplationOfMortality()) my.destroy();
