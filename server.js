@@ -5285,8 +5285,11 @@ var gameloop = (() => {
   }
   const portalSuck = (() => {
     var { width, height, xgrid, ygrid } = room;
+    var tpd = Math.min(width / xgrid, height / ygrid) / 8;
+    tpd *= tpd;
     var { sqrt } = Math;
-    return ({ x, y, accel }) => {
+    return e => {
+      var { x, y } = e;
       if (x < 0 || y < 0 || x >= width || y >= height) return;
       var i = ((xgrid * x) / width) >> 0,
         j = ((ygrid * y) / height) >> 0;
@@ -5294,8 +5297,13 @@ var gameloop = (() => {
       i = (width * (0.5 + i)) / xgrid - x;
       j = (height * (0.5 + j)) / ygrid - y;
       var m = i * i + j * j;
-      if (!m) return;
-      m = 1 / sqrt(m);
+      if (m < tpd) {
+        e.x = 0;
+        e.y = 0;
+        return;
+      }
+      m = 10 / sqrt(m);
+      var { accel } = e;
       accel.x += m * i;
       accel.y += m * j;
     };
