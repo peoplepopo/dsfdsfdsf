@@ -17,7 +17,7 @@
   "RANDOM_COLORS": false,
   "BANNED_CHARACTER_REGEX": "/[\uFDFD\u200E\u0000]/gi", 
   "ROOM_SETUP": [
-    [ "roid", "norm", "norm", "roid" ],
+    [ "roid", "port", "norm", "roid" ],
     [ "norm", "nest", "roid", "norm" ],
     [ "norm", "roid", "nest", "port" ],
     [ "roid", "norm", "norm", "roid" ]

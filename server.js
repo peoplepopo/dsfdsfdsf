@@ -5283,43 +5283,39 @@ var gameloop = (() => {
     my.activation.update();
     my.updateAABB(my.activation.check());
   }
-  const portalSuck = (() => {
-    var { width, height, xgrid, ygrid, setup } = room;
-    var tpd = Math.min(width / xgrid, height / ygrid) / 8;
-    tpd *= tpd;
-    var { sqrt, random } = Math;
-    var ports = () => {
-      var l = [],
-        i,
-        j;
-      for (j = 0; j < ygrid; j++)
-        for (i = 0; i < xgrid; i++)
-          if ("port" === setup[j][i])
-            l.push((width * (0.5 + i)) / xgrid, (height * (0.5 + j)) / ygrid);
-      return l;
-    };
-    var portsCount = ports.length >> 1;
-    return e => {
-      var { x, y } = e;
-      if (x < 0 || y < 0 || x >= width || y >= height) return;
-      var i = ((xgrid * x) / width) >> 0,
-        j = ((ygrid * y) / height) >> 0;
-      if ("port" !== setup[j][i]) return;
-      i = (width * (0.5 + i)) / xgrid - x;
-      j = (height * (0.5 + j)) / ygrid - y;
-      var m = i * i + j * j;
-      if (m < tpd) {
-        var rp = (portsCount * random()) << 1;
-        e.x = ports[rp];
-        e.y = ports[1 + rp];
-        return;
-      }
-      m = 2 / sqrt(m);
-      var { accel } = e;
-      accel.x += m * i;
-      accel.y += m * j;
-    };
+  const portalSuck=(()=>{
+  var {width,height,xgrid,ygrid,setup}=room;
+  var yeet=Math.min(width/xgrid,height/ygrid)/8;
+  var tpd=yeet*yeet;
+  var {sqrt,random,cos,sin}=Math;
+  var ports=(()=>{
+    var l=[],i,j;
+    for(j=0;j<ygrid;j++)for(i=0;i<xgrid;i++)if("port"===setup[j][i])l.push(width*(0.5+i)/xgrid,height*(0.5+j)/ygrid);
+    return l;
   })();
+  var portsCount=ports.length>>1;
+  return e=>{
+    var {x,y}=e;
+    if(x<0||y<0||x>=width||y>=height)return;
+    var i=((xgrid*x)/width)>>0,j=((ygrid*y)/height)>>0;
+    if("port"!==setup[j][i])return;
+    i=width*(0.5+i)/xgrid-x;
+    j=height*(0.5+j)/ygrid-y;
+    var m=i*i+j*j;
+    var {accel}=e;
+    if(m<tpd){
+      e.x=ports[0];
+      e.y=ports[1];
+      var dir=6.283185307179586476925286766559*random();
+      accel.x=yeet*cos(dir);
+      accel.y=yeet*sin(dir);
+      return;
+    }
+    m=2/sqrt(m);
+    accel.x+=m*i;
+    accel.y+=m*j;
+  };
+})();
   function entitiesliveloop(my) {
     // Consider death.
     if (my.contemplationOfMortality()) my.destroy();
