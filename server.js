@@ -10,7 +10,7 @@ const BANNED_CHARACTERS_REGEX = RegExp.apply(
   null,
   c.BANNED_CHARACTER_REGEX.split("/", 3).slice(1)
 );
-
+const TWO_ZEROS=[0,0];
 // Import utilities.
 const util = require("./lib/util");
 const ran = require("./lib/random");
@@ -1661,7 +1661,7 @@ var bringToLife = (() => {
       my.range -= 1;
     }
     // Invisibility
-    if (default_invis !== my.invisible) {
+    if (TWO_ZEROS !== my.invisible) {
       const { x, y } = my.velocity;
       my.alpha =
         x * x + y * y <= 0.01
@@ -1769,8 +1769,6 @@ class HealthType {
   }
 }
 
-const default_invis = [0, 0];
-const do_nothing_function = () => {};
 class Entity {
   constructor(position, master = this) {
     this.isGhost = false;
@@ -1864,13 +1862,13 @@ class Entity {
     this.collisionArray = new LinkedList();
     this.invuln = false;
     this.alpha = 1;
-    this.invisible = default_invis;
+    this.invisible = TWO_ZEROS;
     // Get a new unique id
     this.id = entitiesIdLog++;
     //this.team = this.id;
     this.team = master.team;
     // This is for collisions
-    this.updateAABB = do_nothing_function;
+    this.updateAABB = Function.prototype;
     this.getAABB = (() => {
       let data = {},
         savedSize = 0;
@@ -4669,8 +4667,7 @@ const sockets = (() => {
         });
 
         // Periodically give out updates
-        const subscribers = new LinkedList(),
-          two_zeros = [0, 0];
+        const subscribers = new LinkedList();
         setInterval(() => {
           logs.minimap.set();
           let minimapUpdate = minimapAll.update();
@@ -4683,16 +4680,16 @@ const sockets = (() => {
               socket.talk(
                 "b",
                 ...minimapUpdate.reset,
-                ...(team ? team.reset : two_zeros),
-                ...(socket.anon ? two_zeros : leaderboardUpdate.reset)
+                ...(team ? team.reset : TWO_ZEROS),
+                ...(socket.anon ? TWO_ZEROS : leaderboardUpdate.reset)
               );
               socket.status.needsNewBroadcast = false;
             } else {
               socket.talk(
                 "b",
                 ...minimapUpdate.update,
-                ...(team ? team.update : two_zeros),
-                ...(socket.anon ? two_zeros : leaderboardUpdate.update)
+                ...(team ? team.update : TWO_ZEROS),
+                ...(socket.anon ? TWO_ZEROS : leaderboardUpdate.update)
               );
             }
           }
