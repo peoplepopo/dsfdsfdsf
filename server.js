@@ -2563,8 +2563,9 @@ class Entity {
   
   getPhoto() {
     if (this.settings.drawShape){
-      //if(photoTick===this._photoTick)return this._photo;console.log("self")
+      if(photoTick===this._photoTick)return this._photo;
       this._photoTick=photoTick;
+      delete this.flattenedPhoto;
       return this._photo=this.camera();
     }
   }
