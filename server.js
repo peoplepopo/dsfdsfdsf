@@ -1768,7 +1768,7 @@ class HealthType {
       : 0;
   }
 }
-
+let photoTick=0;
 class Entity {
   constructor(position, master = this) {
     this.isGhost = false;
@@ -2560,15 +2560,13 @@ class Entity {
     this.facing = ((this.facing % TAU) + TAU) % TAU;
     this.vfacing = util.angleDifference(oldFacing, this.facing) * roomSpeed;
   }
-
-  takeSelfie() {
-    delete this.flattenedPhoto;
-    delete this._photo;
-  }
-
+  
   getPhoto() {
-    if (this.settings.drawShape)
-      return this._photo || (this._photo = this.camera());
+    if (this.settings.drawShape){
+      //if(photoTick===this._photoTick)return this._photo;console.log("self")
+      this._photoTick=photoTick;
+      return this._photo=this.camera();
+    }
   }
 
   physics() {
@@ -5300,7 +5298,7 @@ var gameloop = (() => {
         my.friction();
         my.confinementToTheseEarthlyShackles();
         logs.selfie.set();
-        my.takeSelfie();
+        photoTick++;
         logs.selfie.mark();
       }
     }
